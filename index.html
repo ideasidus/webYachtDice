@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <!-- 직접만든 외부 스타일시트 -->
+  <link type="text/css" rel="stylesheet" href="css/YachtDice.css">
+  <title>Yacht Dice</title>
+</head>
+
+<body>
+  <div class="score" style="display: flex;">
+    <table class="scoreBoard">
+      <colgroup>
+        <col style="width: 140px">
+        <col style="width: 80px">
+        <col style="width: 80px">
+      </colgroup>
+      <tbody>
+        <tr id="Player">
+          <th class="" id="turn">P1's Turn</th>
+          <th class="p1" id="p1name">P1</th>
+          <th class="p2" id="p2name">P2</th>
+        </tr>
+        <tr id="Aces">
+          <th class="scoreBoard-categories" id="">
+            <img class="score_img" src="/img/Aces.png" alt="Ace_Dice"> Aces</td>
+          <td class="scoreBoard-user p1" id="0-1"></td>
+          <td class="scoreBoard-user p2" id="0-2"></td>
+        </tr>
+        <tr id="Deuces">
+          <th class="scoreBoard-categories" id="">
+            <img class="score_img" src="/img/Deuces.png" alt="Deuces_Dice"> Deuces</td>
+          <td class="scoreBoard-user p1" id="1-1"></td>
+          <td class="scoreBoard-user p2" id="1-2"></td>
+        </tr>
+        <tr id="Threes">
+          <th class="scoreBoard-categories" id="">
+            <img class="score_img" src="/img/Threes.png" alt="Threes_Dice"> Threes</td>
+          <td class="scoreBoard-user p1" id="2-1"></td>
+          <td class="scoreBoard-user p2" id="2-2"></td>
+        </tr>
+        <tr id="Fours">
+          <th class="scoreBoard-categories" id="">
+            <img class="score_img" src="/img/Fours.png" alt="Fours_Dice"> Fours</td>
+          <td class="scoreBoard-user p1" id="3-1"></td>
+          <td class="scoreBoard-user p2" id="3-2"></td>
+        </tr>
+        <tr id="Fives">
+          <th class="scoreBoard-categories" id="">
+            <img class="score_img" src="/img/Fives.png" alt="Fives_Dice"> Fives</td>
+          <td class="scoreBoard-user p1" id="4-1"></td>
+          <td class="scoreBoard-user p2" id="4-2"></td>
+        </tr>
+        <tr id="Sixes">
+          <th class="scoreBoard-categories" id="">
+            <img class="score_img" src="/img/Sixes.png" alt="Sixes_Dice"> Sixes</td>
+          <td class="scoreBoard-user p1" id="5-1"></td>
+          <td class="scoreBoard-user p2" id="5-2"></td>
+        </tr>
+        <tr id="Subtotal">
+          <th class="scoreBoard-categories" id="">Subtotal</td>
+          <td class="scoreBoard-user p1 scoreSet" id="6-1">0/63</td>
+          <td class="scoreBoard-user p2 scoreSet" id="6-2">0/63</td>
+        </tr>
+        <tr id="Bonus">
+          <th class="scoreBoard-categories" id="">Bonus(+35)</td>
+          <td class="scoreBoard-user p1 scoreSet" id="7-1"></td>
+          <td class="scoreBoard-user p2 scoreSet" id="7-2"></td>
+        </tr>
+        <tr id="Choice">
+          <th class="scoreBoard-categories" id="">
+            <img class="score_img" src="/img/Choice.png" alt="Choice_icon"> Choice</td>
+          <td class="scoreBoard-user p1" id="8-1"></td>
+          <td class="scoreBoard-user p2" id="8-2"></td>
+        </tr>
+        <tr id="FourOfKind">
+          <th class="scoreBoard-categories" id="">
+            <img class="score_img" src="/img/FourOfKind.png" alt="Clover_icon"> 4 of a kind</td>
+          <td class="scoreBoard-user p1" id="9-1"></td>
+          <td class="scoreBoard-user p2" id="9-2"></td>
+        </tr>
+        <tr id="FullHouse">
+          <th class="scoreBoard-categories" id="">
+            <img class="score_img" src="/img/FullHouse.png" alt="House_icon"> Full House</td>
+          <td class="scoreBoard-user p1" id="10-1"></td>
+          <td class="scoreBoard-user p2" id="10-2"></td>
+        </tr>
+        <tr id=SmallStraight>
+          <th class="scoreBoard-categories" id="">
+            <img class="score_img" src="/img/SmallStraight.png" alt="Snake_icon"> S. Straight</td>
+          <td class="scoreBoard-user p1" id="11-1"></td>
+          <td class="scoreBoard-user p2" id="11-2"></td>
+        </tr>
+        <tr id=LargeStraight>
+          <th class="scoreBoard-categories" id="">
+            <img class="score_img" src="/img/LargeStraight.png" alt="Dragon_icon"> L. Straight</td>
+          <td class="scoreBoard-user p1" id="12-1"></td>
+          <td class="scoreBoard-user p2" id="12-2"></td>
+        </tr>
+        <tr id="Yacht">
+          <th class="scoreBoard-categories" id="">
+            <img class="score_img" src="/img/Yacht.png" alt="Yacht_icon"> Yacht</td>
+          <td class="scoreBoard-user p1" id="13-1"></td>
+          <td class="scoreBoard-user p2" id="13-2"></td>
+        </tr>
+        <tr id="TotalScore">
+          <th class="scoreBoard-categories" id="">Total Score</td>
+            <td class="scoreBoard-user p1 scoreSet" id="14-1"></td>
+            <td class="scoreBoard-user p2 scoreSet" id="14-2"></td>
+        </tr>
+        <tr>
+          <td class="scoreBoard-categories" colspan="3" style="height:50px; text-align: center; font-size: 25px; background-color: lightskyblue;">
+            <a href="rule.html" target="_blank">Yacht Dice Rule</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="DiceArea">
+    <div class="DiceSet">
+      <div class="Dice" id="Dice0"></div>
+      <div class="Dice" id="Dice1"></div>
+      <div class="Dice" id="Dice2"></div>
+      <div class="Dice" id="Dice3"></div>
+      <div class="Dice" id="Dice4"></div>
+    </div>
+    <div class="ButtonArea">
+      <button type="button" class="btn btn-success" id="rollButton" style="width: 100%; height: 64px;">주사위 굴리기 (3/3)</button>
+    </div>
+    <div class="ButtonArea" id="resetArea">
+    </div>
+  </div>
+  <script src="/js/YachtDice.js"></script>
+</body>
+
+</html>
