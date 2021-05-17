@@ -108,9 +108,12 @@ function selectDice(dice_id){
 }
 
 function setScore(event) {
+  console.log("setScoreFunc called");
   var score_id = event.target.id.split('-');
   score_id = score_id[0];
-  socket.to(socket.id).emit(setScore, score_id);
+  console.log("socketID = " + socket.player);
+
+  socket.emit('setScore', score_id);
   rollButton.removeEventListener('click', rollDice); // 주사위 굴리기를 눌렀을때 rollDice 함수가 불리도록 이벤트 리스너
   if (socket.player == 1)
   {
@@ -152,7 +155,9 @@ socket.on("chat message", function (data) {
 });
 
 socket.on('updateDice', function(dice, selectedDice, rollCount){
+  console.log("client updateDice");
   console.log(dice, selectedDice, rollCount);
+
   for (let i = 0; i < 5; i++) {
     if (!selectedDice[i]) {
       diceElement[i].style.transform = "rotate(" + (getRandomInt(-60, 61)) + "deg)"
@@ -163,6 +168,8 @@ socket.on('updateDice', function(dice, selectedDice, rollCount){
 });
 
 socket.on('selectDiceUpdate', function(selected, dice_id) {
+  console.log("client selectDiceUpdate");
+
     if (selected) {
       diceElement[dice_id].className="SelectedDice";
       diceElement[dice_id].style.transform = "rotate(0deg)";
@@ -175,6 +182,7 @@ socket.on('selectDiceUpdate', function(selected, dice_id) {
 });
 
 socket.on("showTempScore", function(score, tempScore, player){
+  console.log("client showTempScore");
   if (player == 1) {
     for (let i = 0; i < 6; i++) {
       if(score[i] == undefined){
@@ -202,6 +210,9 @@ socket.on("showTempScore", function(score, tempScore, player){
 })
 
 socket.on('setListener', function(player, score){
+  console.log("client setListener for player " +  player);
+  console.log("it's score is " + score);
+
   rollButton.addEventListener('click', rollDice); // 주사위 굴리기를 눌렀을때 rollDice 함수가 불리도록 이벤트 리스너
   if (player == 1) {
     for(let i = 0; i < 15; i++) {
@@ -220,6 +231,8 @@ socket.on('setListener', function(player, score){
 })
 
 socket.on('overTurn', function(otherplayer) {
+  console.log("client overTurn");
+
   for (let i = 0; i < 5; i++) {
     diceElement[i].style.transform = "rotate(0deg)";
   }
@@ -233,6 +246,8 @@ socket.on('overTurn', function(otherplayer) {
 });
 
 socket.on('updateScore', function(score, player) {
+  console.log("client updateScore");
+
   if(player == 1){
     for (let i = 0; i < 15; i++) {
       if(score[i] == undefined)
@@ -265,6 +280,8 @@ socket.on('updateScore', function(score, player) {
 })
 
 socket.on('highlight', function(player) {
+  console.log("client highlight");
+
   for (let i = 0; i < p1Element.length; i++) {
     if (player == 2){
       p1Element[i].style.backgroundColor = "lightgreen";

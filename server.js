@@ -45,7 +45,7 @@ io.on('connection', function (socket) {
   var tempScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //주사위 눈에 따라 계산되는 임시 점수 변수
   var turn = 0; //몇번 차례가 돌았는지 기록하는 변수
   //기존 방에 재참여하여 인원수를 늘리는 것을 막는 코드.
-  console.log("Someone connect to socket");
+  console.log( name +" connect to socket");
 
   socket.name = name;
   socket.room = room;
@@ -72,7 +72,7 @@ io.on('connection', function (socket) {
   console.log(name + " join room " + room);
 
   if (rooms[room] == 2) {
-    io.to(room).emit('overTurn', player);
+    io.to(room).emit('overTurn', socket.player);
   }
   else {
     
@@ -95,7 +95,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('rollDice', function () {
-    console.log("rollDice called");
+    console.log("(" + socket.player + ")" + name + "server rollDice");
 
     if (rollCount > 0) {
       for (let i = 0; i < 5; i++) {
@@ -105,42 +105,46 @@ io.on('connection', function (socket) {
       }
       rollCount--;
       calcScore();
-      socket.emit('updateDice', dice, selectedDice, rollCount);
-      socket.emit('showTempScore', score, tempScore, player);
+      io.to(room).emit('updateDice', dice, selectedDice, rollCount);
+      io.to(room).emit('showTempScore', score, tempScore, socket.player);
     }
   });
 
   socket.on('selectDice', function (dice_id) {
-    console.log("selectDice called");
+    console.log("(" + socket.player + ")" + name + "server selectDice");
 
     if (rollCount < 3) {
       selectedDice[dice_id] = !selectedDice[dice_id];
-      socket.emit('selectDiceUpdate', selectedDice[dice_id], dice_id);
+      io.to(room).emit('selectDiceUpdate', selectedDice[dice_id], dice_id);
     }
   })
 
   socket.on('overTurn', function(otherplayer){
+    console.log("(" + socket.player + ")" + name + "server overTurn");
+
     tempScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     for (let i = 0; i < 5; i++) {
       selectedDice[i] = false;
     }
     rollCount = 3;
-    socket.emit('updateDice', dice, selectedDice, rollCount);
-    socket.emit('highlight', otherplayer);
+    io.to(room).emit('updateDice', dice, selectedDice, rollCount);
+    io.to(room).emit('highlight', otherplayer);
     if(otherplayer != socket.player)
     {
       console.log(socket.player);
-      io.to(socket.id).emit("setListener", player, score);
+      io.to(socket.id).emit("setListener", socket.player, score);
     }
     // checkEnd();
   });
 
   socket.on("setScore", function(score_id) {
+    console.log("(" + socket.player + ")" + name + "server setScore");
+
     score[score_id] = tempScore[score_id];
     calcSum();
     checkBonus();
-    socket.emit('updateScore', score, player);
-    socket.broadcast.to(room).emit('overTurn', score, player);
+    io.to(room).emit('updateScore', score, socket.player);
+    socket.broadcast.to(room).emit('overTurn', score, socket.player);
   })
 
   //min 이상 max 미만을 반환하는 함수
@@ -233,6 +237,7 @@ io.on('connection', function (socket) {
     }
   }
 
+  //점수 설정시 1~6의 합과 전체 합을 구하는 함수
   function calcSum() {
     score[6] = 0;
     score[7] = 0;
@@ -249,6 +254,7 @@ io.on('connection', function (socket) {
     }
   }
 
+  //1~6의 합이 63을 넘으면 보너스를 부여하는 함수
   function checkBonus() {
     if(score[6] >= 63)
     {
