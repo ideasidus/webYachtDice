@@ -14,7 +14,11 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
   <!-- 직접만든 외부 스타일시트 -->
-  <link type="text/css" rel="stylesheet" href="css/YachtDice.css">
+  <link type="text/css" rel="stylesheet" href="/css/YachtDice.css">
+
+  <!-- socket.io script -->
+  <script src="/socket.io/socket.io.js"></script>
+  
   <title>Yacht Dice</title>
 </head>
 
@@ -139,9 +143,11 @@
       <button type="button" class="btn btn-success" id="rollButton" style="width: 100%; height: 64px;">주사위 굴리기 (3/3)</button>
     </div>
     <div class="ButtonArea" id="resetArea">
+      <ul id="chat"></ul>
     </div>
   </div>
-  <script src="/js/YachtDice.js"></script>
-</body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/YachtDice.js"></script></body>
 
 </html>
