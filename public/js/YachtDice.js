@@ -161,6 +161,7 @@ socket.on('updateDice', function(dice, selectedDice, rollCount){
   for (let i = 0; i < 5; i++) {
     if (!selectedDice[i]) {
       diceElement[i].style.transform = "rotate(" + (getRandomInt(-60, 61)) + "deg)"
+      diceElement[i].className="Dice";
     }
     diceElement[i].innerHTML = dice[i];
   }
@@ -230,19 +231,19 @@ socket.on('setListener', function(player, score){
   }
 })
 
-socket.on('overTurn', function(otherplayer) {
+socket.on('overTurnClient', function(otherPlayer) {
   console.log("client overTurn");
 
   for (let i = 0; i < 5; i++) {
     diceElement[i].style.transform = "rotate(0deg)";
   }
-  if (otherplayer == 2){
+  if (otherPlayer == 2){
     turnElement.innerHTML = "P1's Turn";
   }
   else {
     turnElement.innerHTML = "P2's Turn";
   }
-  socket.emit('overTurn', otherplayer);
+  socket.emit('overTurnServer', otherPlayer);
 });
 
 socket.on('updateScore', function(score, player) {

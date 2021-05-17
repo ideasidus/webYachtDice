@@ -72,7 +72,7 @@ io.on('connection', function (socket) {
   console.log(name + " join room " + room);
 
   if (rooms[room] == 2) {
-    io.to(room).emit('overTurn', socket.player);
+    io.to(room).emit('overTurnClient', socket.player);
   }
   else {
     
@@ -119,7 +119,7 @@ io.on('connection', function (socket) {
     }
   })
 
-  socket.on('overTurn', function(otherplayer){
+  socket.on('overTurnServer', function(otherPlayer){
     console.log("(" + socket.player + ")" + name + "server overTurn");
 
     tempScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -128,8 +128,8 @@ io.on('connection', function (socket) {
     }
     rollCount = 3;
     io.to(room).emit('updateDice', dice, selectedDice, rollCount);
-    io.to(room).emit('highlight', otherplayer);
-    if(otherplayer != socket.player)
+    io.to(room).emit('highlight', otherPlayer);
+    if(otherPlayer != socket.player)
     {
       console.log(socket.player);
       io.to(socket.id).emit("setListener", socket.player, score);
@@ -144,7 +144,7 @@ io.on('connection', function (socket) {
     calcSum();
     checkBonus();
     io.to(room).emit('updateScore', score, socket.player);
-    socket.broadcast.to(room).emit('overTurn', score, socket.player);
+    io.to(room).emit('overTurnClient', socket.player);
   })
 
   //min 이상 max 미만을 반환하는 함수
