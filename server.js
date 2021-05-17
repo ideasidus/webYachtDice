@@ -4,6 +4,8 @@ const app = new express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
+var db = require('./lib/db.js');  //database
+
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
@@ -25,6 +27,23 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/join-room.html');
 });
 
+app.get('/signUp', function(req, res) {
+  res.sendFile(__dirname + "/signUp.html");
+});
+
+//로그인 전처리 구간
+app.use('/game',function(req,res,next){
+  name = req.body.name;
+  pw = req.body.pw;
+  db.query(`select id from user where id = '${name}' and pw = '${pw}'`, function(err,status){
+    if(status[0] == undefined) {
+      res.sendFile(__dirname + '/join-room.html');
+    } else {
+      next()
+    }
+  })
+})
+
 // 이름과 코드입력시 /game 호출하면, 게임 페이지 반환
 app.post('/game', function (req, res) {
   name = req.body.name;
@@ -36,6 +55,12 @@ app.post('/game', function (req, res) {
     res.sendFile(__dirname + '/index.html');
   }
 })
+
+//회원가입
+app.get('/signUp', function(req, res) {
+  res.sendFile(__dirname + "/signUp.html");
+});
+
 
 io.on('connection', function (socket) {
   var rollCount = 3; //주사위 던지는 횟수를 세는 변수
@@ -262,4 +287,28 @@ io.on('connection', function (socket) {
     }
   }
 
+//회원가입 파트
+socket.on('signUp', function(data) {
+  var msg = {
+    from: {
+      name: socket.name,
+      userid: socket.userid
+    },
+    user: data.user,
+    pw: data.pw
+  };
+
+  db.query(`select id from user where id = '${data.user}' and pw = '${data.pw}'`, function(err,status){
+    if(status[0] == undefined) {
+      db.query(`insert into user values ('${data.user}', '${data.pw}')`,function(err2,status2){
+        if(err2) {
+          throw err2;
+        }
+      })
+      socket.emit('signUp', 'success');
+    } else {
+      socket.emit('signUp', 'fail');
+    }
+  })
+});
 });

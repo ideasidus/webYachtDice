@@ -11,11 +11,17 @@
   <div class="container">
     <h3>닉네임을 설정하고 방 코드를 입력해 주세요.</h3>
     <!-- <form class="form-inline"> -->
-    <form action="game" method="POST" class="form-horizontal">
+    <form action="game" method="POST" class="form-horizontal" id = "login-form" onsubmit = "jbSubmit();">
       <div class="form-group">
-        <label for="name" class="col-sm-2 control-label">Name</label>
+        <label for="name" class="col-sm-2 control-label">ID</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="name" placeholder="Name" name="name">
+          <input type="text" class="form-control" id="name" placeholder="ID" name="name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">PW</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="pw" placeholder="PW" name="pw">
         </div>
       </div>
       <div class="form-group">
@@ -31,7 +37,13 @@
       </div>
       <ul id="chat">채팅구역</ul>
     </form>
+    <input type="button" value="signUp" onclick="signUp()"/>
   </div>
+  <script>
+    function signUp(){
+        location.href = "/signUp";
+      }
+    </script>
 </body>
 
 </html>
