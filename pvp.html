@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>전적확인</h1>
+    <form class="form-inline">
+        <div class="form-group">
+          <label for="name">ID: </label>
+          <input type="text" class="form-control" id="name">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+      <div id="pvpLogs"></div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+      <script>
+        $(function(){
+            var socket = io();
+
+            // 서버로부터의 메시지가 수신되면
+            socket.on("findLog", function(data) {
+                if( res == 'fail' ) {
+                    alert("이미 존재하는 ID 입니다.");
+                    location.href = "/signUp";
+                } else {
+                    $("#pvpLogs").append("<div> 승 : " + data.win +  "</div>" + "<div> 패 : " + data.lose +  "</div>" + "<div> 비김 : " + data.draw +  "</div>");
+                }
+            });
+
+            // Send 버튼이 클릭되면
+            $("form").submit(function(e) {
+                e.preventDefault();
+                var $name = $("#name");
+
+                // 서버로 메시지를 전송한다.
+                socket.emit("findLog", name.val());
+                $name.val("");
+            });
+        });
+      
+        </script>
+</body>
+</html>

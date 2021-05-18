@@ -34,18 +34,13 @@ app.get('/signUp', function(req, res) {
   res.sendFile(__dirname + "/signUp.html");
 });
 
-// DB없이 게임 테스트를 위한 테스트 페이지 연결
-app.get('/test', function(req, res) {
-  res.sendFile(__dirname + "/test");
-})
-
-//로그인 전처리 구간
+//로그인 미들웨어
 app.use('/game',function(req,res,next){
   name = req.body.name;
   pw = req.body.pw;
   db.query(`select id from user where id = '${name}' and pw = '${pw}'`, function(err,status){
     if(status[0] == undefined) {
-      res.sendFile(__dirname + '/join-room.html');
+      res.sendFile(__dirname + '/join-error.html');
     } else {
       next()
     }
@@ -57,7 +52,7 @@ app.post('/game', function (req, res) {
   name = req.body.name;
   room = req.body.room;
   if (rooms[room] >= 2) {
-    res.sendFile(__dirname + '/join-room.html');
+    res.sendFile(__dirname + '/join-room-error.html');
   }
   else {
     res.sendFile(__dirname + '/index.html');
@@ -69,6 +64,10 @@ app.get('/signUp', function(req, res) {
   res.sendFile(__dirname + "/signUp.html");
 });
 
+//전적검색
+app.get('/findLog', function(req, res) {
+  res.sendFile(__dirname + "/pvp.html");
+});
 
 io.on('connection', function (socket) {
   var rollCount = 3; //주사위 던지는 횟수를 세는 변수
@@ -110,10 +109,6 @@ io.on('connection', function (socket) {
   else {
     
   }
-
-  socket.on('gameData', function () {
-
-  })
 
   socket.on('forceDisconnect', function () {
     socket.disconnect();
@@ -353,4 +348,16 @@ socket.on('signUp', function(data) {
     }
   })
 });
+
+  //로그 검색 기능
+  socket.on('findLog',function(data){
+    db.query(`select id,win,lose,draw from user_record where id = '${data}'`,function(err, status){
+      console.log(`select id,win,lose,draw from user_record where id = '${data}'`);
+      if(status[0] == undefined) {
+        socket.emit('findLog', 'fail');
+      } else {
+        socket.emit('findLog', {win : status[0].win, lose : status[0].lose, draw: status[0].draw});
+      }
+    })
+  });
 });
