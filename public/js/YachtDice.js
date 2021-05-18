@@ -29,42 +29,6 @@ for (let i = 0; i < 15; i++) {
   p1Element[i] = document.getElementById(i+"-1");
   p2Element[i] = document.getElementById(i+"-2");
 }
-// console.log(dice);
-
-
-// function overTurn() {
-//   p1Turn = !p1Turn;
-//   tempScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-//   for (let i = 0; i < 5; i++) {
-//     if (diceSelected[i])
-//     {
-//       selectDice(i);
-//     }
-//     diceElement[i].style.transform = "rotate(0deg)";
-//   }
-//   rollCount = 3;
-//   rollButton.innerHTML = "주사위 굴리기 (" + rollCount + "/3)"
-//   setListener();
-//   if (p1Turn){
-//     turnElement.innerHTML = "P1's Turn";
-//   }
-//   else {
-//     turnElement.innerHTML = "P2's Turn";
-//   }
-
-//   for (let i = 0; i < p1Element.length; i++) {
-//     if (p1Turn){
-//       p1Element[i].style.backgroundColor = "lightgreen";
-//       p2Element[i].style.backgroundColor = "#FEFCEF"
-//     }
-//     else {
-//       p1Element[i].style.backgroundColor = "#FEFCEF";
-//       p2Element[i].style.backgroundColor = "lightgreen"
-//     }
-//   }
-//   setListener();
-//   checkEnd();
-// }
 
 // function resetGame() {
 //   rollCount = 3;
@@ -108,9 +72,12 @@ function selectDice(dice_id){
 }
 
 function setScore(event) {
+  console.log("setScoreFunc called");
   var score_id = event.target.id.split('-');
   score_id = score_id[0];
-  socket.to(socket.id).emit(setScore, score_id);
+  console.log("socketID = " + socket.player);
+
+  socket.emit('setScore', score_id);
   rollButton.removeEventListener('click', rollDice); // 주사위 굴리기를 눌렀을때 rollDice 함수가 불리도록 이벤트 리스너
   if (socket.player == 1)
   {
@@ -152,10 +119,13 @@ socket.on("chat message", function (data) {
 });
 
 socket.on('updateDice', function(dice, selectedDice, rollCount){
+  console.log("client updateDice");
   console.log(dice, selectedDice, rollCount);
+
   for (let i = 0; i < 5; i++) {
     if (!selectedDice[i]) {
       diceElement[i].style.transform = "rotate(" + (getRandomInt(-60, 61)) + "deg)"
+      diceElement[i].className="Dice";
     }
     diceElement[i].innerHTML = dice[i];
   }
@@ -163,6 +133,8 @@ socket.on('updateDice', function(dice, selectedDice, rollCount){
 });
 
 socket.on('selectDiceUpdate', function(selected, dice_id) {
+  console.log("client selectDiceUpdate");
+
     if (selected) {
       diceElement[dice_id].className="SelectedDice";
       diceElement[dice_id].style.transform = "rotate(0deg)";
@@ -175,6 +147,7 @@ socket.on('selectDiceUpdate', function(selected, dice_id) {
 });
 
 socket.on("showTempScore", function(score, tempScore, player){
+  console.log("client showTempScore");
   if (player == 1) {
     for (let i = 0; i < 6; i++) {
       if(score[i] == undefined){
@@ -202,6 +175,9 @@ socket.on("showTempScore", function(score, tempScore, player){
 })
 
 socket.on('setListener', function(player, score){
+  console.log("client setListener for player " +  player);
+  console.log("it's score is " + score);
+
   rollButton.addEventListener('click', rollDice); // 주사위 굴리기를 눌렀을때 rollDice 함수가 불리도록 이벤트 리스너
   if (player == 1) {
     for(let i = 0; i < 15; i++) {
@@ -219,20 +195,24 @@ socket.on('setListener', function(player, score){
   }
 })
 
-socket.on('overTurn', function(otherplayer) {
+socket.on('overTurnClient', function(otherPlayer) {
+  console.log("client overTurn");
+
   for (let i = 0; i < 5; i++) {
     diceElement[i].style.transform = "rotate(0deg)";
   }
-  if (otherplayer == 2){
+  if (otherPlayer == 2){
     turnElement.innerHTML = "P1's Turn";
   }
   else {
     turnElement.innerHTML = "P2's Turn";
   }
-  socket.emit('overTurn', otherplayer);
+  socket.emit('overTurnServer', otherPlayer);
 });
 
 socket.on('updateScore', function(score, player) {
+  console.log("client updateScore");
+
   if(player == 1){
     for (let i = 0; i < 15; i++) {
       if(score[i] == undefined)
@@ -265,6 +245,8 @@ socket.on('updateScore', function(score, player) {
 })
 
 socket.on('highlight', function(player) {
+  console.log("client highlight");
+
   for (let i = 0; i < p1Element.length; i++) {
     if (player == 2){
       p1Element[i].style.backgroundColor = "lightgreen";
@@ -275,4 +257,27 @@ socket.on('highlight', function(player) {
       p2Element[i].style.backgroundColor = "lightgreen"
     }
   }
+})
+
+socket.on('myTotalScore', function(total, player){
+  console.log("myTotalScore called "+ total + " " + player);
+  socket.emit("setTotalScore", total, player);
+})
+
+
+socket.on('winnerIs', function(player) {
+  if (player == 1)
+  {
+    resetButton.textContent = "[Player 1] 승리!";
+  }
+  else if(player == 2)
+  {
+    resetButton.textContent = "[Player 2] 승리!";
+  }
+  else
+  {
+    resetButton.textContent = "비겼습니다! 새 게임 시작";
+  }
+  resetArea.appendChild(resetButton);
+  socket.emit("updateWin", player);
 })

@@ -16,6 +16,9 @@ rooms['empty'] = 0;
 var name;
 var room;
 var player = 0;
+var turn = 0;
+var p1total
+var p2total
 
 // 3000번 포트에 개방
 server.listen(3000, function () {
@@ -30,6 +33,11 @@ app.get('/', function (req, res) {
 app.get('/signUp', function(req, res) {
   res.sendFile(__dirname + "/signUp.html");
 });
+
+// DB없이 게임 테스트를 위한 테스트 페이지 연결
+app.get('/test', function(req, res) {
+  res.sendFile(__dirname + "/test");
+})
 
 //로그인 전처리 구간
 app.use('/game',function(req,res,next){
@@ -170,6 +178,44 @@ io.on('connection', function (socket) {
     checkBonus();
     io.to(room).emit('updateScore', score, socket.player);
     io.to(room).emit('overTurnClient', socket.player);
+    turn++;
+    console.log("turn " + turn + " at player " + socket.player);
+    if(turn >= 12)
+    {
+      console.log("my total score if in");
+
+      totalScore = score[14];
+      io.to(room).emit('myTotalScore', totalScore, socket.player);
+    }
+  })
+
+  socket.on("setTotalScore", function(total, player) {
+    console.log("setTotalScore called at " + socket.player + " about player: "+player + " socre: "+ total);
+    if(player == 1)
+    {
+      p1total = total;
+    }
+    else
+    {
+      p2total = total;
+    }
+    if(p2total != undefined)
+    {
+      checkWinner();
+    }
+  })
+
+  socket.on("updateWin", function(winner){
+    //winner 정보에 위너의 socket.player가 전달됨
+    if(winner == 0){
+      //DB에 무승부 정보 업데이트
+    }
+    else if(winner == socket.player) {
+      //나의 승리이므로 내 승리정보 업데이트
+    }
+    else {
+      //상대의 승리이므로 내 패배정보 업데이트
+    }
   })
 
   //min 이상 max 미만을 반환하는 함수
@@ -245,20 +291,16 @@ io.on('connection', function (socket) {
   }
 
   //게임 종료를 판별하는 함수
-  function checkEnd() {
-    turn++;
-    if (turn > 24) {
-      
-      if (p1score[14] > p2score[14]) {
-        resetButton.textContent = "[Player 1] 승리! 새 게임 시작";
-      }
-      else if (p1score[14] < p2score[14]) {
-        resetButton.textContent = "[Player 2] 승리! 새 게임 시작";
-      }
-      else {
-        resetButton.textContent = "비겼습니다! 새 게임 시작";
-      }
-      resetArea.appendChild(resetButton);
+  function checkWinner() {
+    console.log("checkWinner called at "+socket.player+" and p1score : "+p1total+" and p2score : "+p2total);
+    if (p1total > p2total) {
+      io.to(room).emit('winnerIs', 1);
+    }
+    else if (p1total < p2total) {
+      io.to(room).emit('winnerIs', 2);
+    }
+    else {
+      io.to(room).emit('winnerIs', 0);
     }
   }
 
