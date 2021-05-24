@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket.io Chat Example</title>
+    <link type="text/css" rel="stylesheet" href="/css/login.css" />
+  </head>
+  <body>
+    <section class="center">
+      <div class="header">
+        <h1>
+          <a href="/" class="logo">
+            <span class="service-name">LOGIN SERVICE</span>
+          </a>
+        </h1>
+      </div>
+      <div class="form-wrap">
+        <div class="user-info">
+          <form
+            action="login"
+            method="POST"
+            id="login-form"
+            class="user-info-form"
+          >
+            <input
+              type="text"
+              id="id"
+              class="id"
+              placeholder="아이디"
+              name="id"
+            />
+            <input
+              id="pwd"
+              class="pwd"
+              name="pwd"
+              type="password"
+              placeholder="비밀번호"
+            />
+            <input type="submit" class="login-Btn" value="로그인" />
+          </form>
+        </div>
+        <div class="check-box-form">
+          <div class="id-check-box-form">
+            <label>ID 저장<input class="save-ID" type="checkbox" /></label>
+          </div>
+          <span class="bar">|</span>
+          <div class="pwd-check-box-form">
+            <label
+              >PWD 숨기기<input
+                class="hide-PWD"
+                type="checkbox"
+                checked
+                onclick="checkedHP()"
+            /></label>
+          </div>
+          <div class="abs-Btn">
+            <span class="abs-ps-box">
+              <label
+                ><input
+                  class="sign-up"
+                  type="button"
+                  value="회원가입"
+                  onclick="handleSignUp()"
+              /></label>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="/js/login.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  </body>
+</html>

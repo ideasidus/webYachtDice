@@ -1,9 +1,9 @@
-html{
+html {
   width: 100%;
   height: 100%;
 }
-body{
-  background-image: url("../img/background.jpeg");
+body {
+  background-image: url("../img/background4.jpg");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   width: 100%;
@@ -11,16 +11,19 @@ body{
 }
 
 .score {
-  display: flex;
-  width: 30%;
-  height: 100%;
-  float:left;
-  justify-content: center; /*가로에서 가운데에 요소(자식요소)를 배치하겠다*/
+  width: 23%;
+  height: 99.55vh;
+  float: left;
+  justify-content: flex-start; /*가로에서 가운데에 요소(자식요소)를 배치하겠다*/
   align-items: center; /* 세로에서 가운데에 요소를 배치하겠다 */
 }
 
 .scoreBoard {
-  height:90%;
+  height: 100%;
+  width: 80%;
+}
+tbody > tr {
+  height: 5.55%;
 }
 
 #Player {
@@ -31,86 +34,388 @@ body{
   font-size: large;
 }
 
-.scoreBoard th, td {
+.scoreBoard th,
+td {
   border-color: black;
   border-style: solid;
   border-width: 1px;
   font-family: Arial, sans-serif;
-  font-size: 16px;
+  font-size: 1vw;
   padding: 10px 5px;
   word-break: normal;
-  background-color: #FEFCEF;
+  background-color: #fefcef;
 }
+
+/* tr#TotalScore {
+  background-color: blue;
+} */
 
 .scoreBoard-user {
   text-align: right;
   color: gray;
+  font-size: 1vw !important;
+}
+
+/* 추가부분 */
+/* .container {
+  margin: auto;
+} */
+
+/* *[data-animation="ripple"] {
+  height: 35px;
+  width: 70px;
+  display: block;
+  outline: none;
+  padding: 0;
+  color: #fff;
+  text-transform: uppercase;
+  background: red;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 14px;
+  font-family: roboto, helvetica;
+  font-weight: 200;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+  /*border-radius: 50px;*/
+/* -webkit-tap-highlight-color: transparent;
+  border-radius: 5px;
+}
+
+*[data-animation="ripple"]:focus {
+  outline: none;
+}
+
+*[data-animation="ripple"]::selection {
+  background: transparent;
+  pointer-events: none;
+} */
+
+/* 마우스를 가져가면 마우스 포인터 변경 */
+.scoreBoard-user.p1:hover {
+  color: blue;
   font-size: 12px;
+  border: 4px solid #7500fc;
+  box-shadow: inset 0 0 8px #ba65ff;
+}
+
+.scoreBoard-user.p1.scoreSet:hover {
+  color: black;
+  font-size: 16px;
+  border: none;
+  box-shadow: none;
+}
+
+.scoreBoard-user.p2:hover {
+  color: blue;
+  font-size: 12px;
+  border: 4px solid #7500fc;
+  box-shadow: inset 0 0 8px #ba65ff;
+}
+
+.scoreBoard-user.p2.scoreSet:hover {
+  color: black;
+  font-size: 16px;
+  border: none;
+  box-shadow: none;
 }
 
 .scoreBoard-categories {
   text-align: left;
 }
+.scoreBoard-categories > a {
+  font-size: 1.5vw;
+}
+.turn {
+  font-size: 1.2vw !important;
+}
 
-.scoreSet{
+.scoreSet {
   text-align: center;
   color: black;
-  font-size: 16px;
 }
 
 .score_img {
-  width: 20px;
-  height: 20px;
+  width: 1vw;
+  height: 1vw;
 }
 
+/* 수정부분 */
+[data-tooltip-text]:hover {
+  position: relative;
+}
+
+[data-tooltip-text]:hover:after {
+  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0.8);
+
+  -webkit-box-shadow: 0px 0px 3px 1px rgba(50, 50, 50, 0.4);
+  -moz-box-shadow: 0px 0px 3px 1px rgba(50, 50, 50, 0.4);
+  box-shadow: 0px 0px 3px 1px rgba(50, 50, 50, 0.4);
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+
+  color: #ffffff;
+  font-size: 12px;
+  content: attr(data-tooltip-text);
+
+  margin-bottom: 10px;
+  top: 130%;
+  left: 0;
+  padding: 7px 12px;
+  position: absolute;
+  width: auto;
+  min-width: 50px;
+  max-width: 300px;
+  word-wrap: break-word;
+
+  z-index: 9999;
+}
+.chatContainer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 20%;
+  height: 40%;
+  border-radius: 15px;
+}
+
+.chatOuterContainer {
+  position: relative;
+  color: black;
+  border-style: solid;
+  background-color: #f6f9f6;
+  border-width: 3px;
+  border-radius: 15px;
+  width: 100%;
+  height: 100%;
+}
+
+.chatTextContainer {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 85%;
+  overflow: auto;
+  overflow-x: hidden;
+  padding-top: 3%;
+}
+.chatTextInnerContainer {
+  width: 100%;
+  padding: 15px;
+}
+
+#chat {
+  list-style: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  font-size: 1vw;
+}
+
+.charInputContainer {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  height: 15%;
+  border-top: 2px solid #666565;
+  border-radius: 15px;
+}
+
+#chatInputText {
+  width: 70%;
+  height: 100%;
+  border: none;
+  font-size: 1.2vw;
+  padding-left: 5px;
+  display: inline;
+  outline: none;
+  box-sizing: border-box;
+  color: black;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.sendButton {
+  width: 30%;
+  height: 100%;
+  background-color: #615f5f;
+  border: none;
+  font-size: 1.5vw;
+  color: white;
+  outline: none;
+  display: inline;
+  box-sizing: border-box;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+/* #chatInputText {
+  border-radius: 10px;
+}
+
+.sendButton {
+  border-radius: 10px;
+} */
+
+/* 여기까지 */
+.DiceContainer {
+  width: 55%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.DiceOutFrame {
+  width: 100%;
+  height: 80%;
+  border: 25px solid transparent;
+  border-radius: 35px;
+  background-image: linear-gradient(#444444, #444444),
+    linear-gradient(to left, #7e928a, #88a096, #c4c8c6);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+.DiceInner1Frame {
+  width: 100%;
+  height: 100%;
+  border: 10px solid transparent;
+  border-radius: 10px;
+  background-image: linear-gradient(#444444, #444444),
+    linear-gradient(to left, #34353b, #38353c, #434344);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+.DiceInner2Frame {
+  width: 100%;
+  height: 100%;
+  border: 10px solid transparent;
+  border-radius: 8px;
+  background-image: linear-gradient(#444444, #444444),
+    linear-gradient(to left, #424241, #38353c, #91908e);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+.DiceInner3Frame {
+  width: 100%;
+  height: 100%;
+  border: 10px solid transparent;
+  border-radius: 5px;
+  background-image: linear-gradient(#444444, #444444),
+    linear-gradient(to left, #313439, #4d4548, #6e6d69);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
 .DiceArea {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  background-image: url("/img/pattern_red.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  /*background-image: linear-gradient(to left, #651f1c, #791f1c, #81231e);*/
   float: left;
   color: white;
-  width: 70%;
+  width: 100%;
   height: 100%;
   justify-content: center; /*가로에서 가운데에 요소(자식요소)를 배치하겠다*/
   align-items: center; /* 세로에서 가운데에 요소를 배치하겠다 */
 }
 
+.LeftArea {
+  width: 100%;
+  height: 7%;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.whosTurn {
+  color: rgb(223, 177, 25);
+  font-weight: bold;
+  font-size: 2vw;
+}
+.leftNumber {
+  color: rgb(219, 219, 219);
+  font-size: 2vw;
+}
 .DiceSet {
+  height: 73%;
   display: flex;
   justify-content: center; /*가로에서 가운데에 요소(자식요소)를 배치하겠다*/
   align-items: center; /* 세로에서 가운데에 요소를 배치하겠다 */
 }
 
 .Dice {
-  width: 120px;
-  height: 120px;
-  background-color: #F5F5F5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 6vw;
+  height: 6vw;
+  background-color: #f5f5f5;
   border: 1px solid;
-  padding: 10px;
-  font-size: 60px;
+  padding: 5px;
+  font-size: 2.5vw;
+  font-weight: bold;
   text-align: center;
-  margin: 30px;
+  margin: 1.4vw;
   color: black;
   transition-duration: 0.3s;
 }
 
-.SelectedDice{
-  width: 120px;
-  height: 120px;
+.SelectedDice {
+  width: 6.5vw;
+  height: 6.5vw;
   background-color: black;
   border: 1px solid;
   padding: 10px;
-  font-size: 60px;
+  font-size: 2.8vw;
   text-align: center;
-  margin: 30px;
+  margin: 1.6vw;
   color: white;
   transition-duration: 0.3s;
 }
 
-.ButtonArea{
-  disPlay: flex;
+.ButtonArea {
+  height: 20%;
+  display: flex;
   justify-content: center; /*가로에서 가운데에 요소(자식요소)를 배치하겠다*/
   align-items: center; /* 세로에서 가운데에 요소를 배치하겠다 */
   width: 100%;
-
+}
+.ButtonArea > button {
+  border-radius: 100%;
+  width: 6vw;
+  height: 6vw;
+  background-image: linear-gradient(to left, #909090, #e6e4e3, #e9e9e9);
+  box-shadow: 0px 0px 5px 5px black;
+  font-size: 2vw;
+  font-weight: bold;
+  border: 2px solid black;
+  color: rgba(0, 0, 0, 0.8);
+  will-change: transform;
+}
+.ButtonArea > button:hover {
+  animation: toSmall 1s linear backwards;
+  will-change: transform;
+}
+@keyframes toSmall {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .rule {

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Room choice</title>
+    <link type="text/css" rel="stylesheet" href="/css/join.css" />
+  </head>
+  <body>
+    <div class="joinOuterContainer">
+      <div class="joinInnerContainer">
+        <h1 class="heading">Yacht Dice</h1>
+        <form action="join" method="POST" id="join-form" class="join-form">
+          <input
+            required
+            placeholder="닉네임"
+            name="name"
+            class="joinInput"
+            type="text"
+          />
+          <input
+            required
+            name="room"
+            placeholder="방번호"
+            class="joinInput mt-20"
+            type="text"
+          />
+          <button class="button mt-20" type="submit">참여하기</button>
+        </form>
+      </div>
+    </div>
+    <script src="/js/join.js"></script>
+  </body>
+</html>

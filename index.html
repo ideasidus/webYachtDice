@@ -26,48 +26,48 @@
   <div class="score" style="display: flex;">
     <table class="scoreBoard">
       <colgroup>
-        <col style="width: 140px">
-        <col style="width: 80px">
-        <col style="width: 80px">
+        <col style="width: 50%">
+        <col style="width: 25%">
+        <col style="width: 25%">
       </colgroup>
       <tbody>
         <tr id="Player">
-          <th class="" id="turn">P1's Turn</th>
+          <th class="turn" id="turn">P1's Turn</th>
           <th class="p1" id="p1name">P1</th>
           <th class="p2" id="p2name">P2</th>
         </tr>
         <tr id="Aces">
-          <th class="scoreBoard-categories" id="">
+          <th class="scoreBoard-categories" id="" data-tooltip-text="1이 나온 주사위의 총합 / 최대 5점">
             <img class="score_img" src="/img/Aces.png" alt="Ace_Dice"> Aces</td>
           <td class="scoreBoard-user p1" id="0-1"></td>
           <td class="scoreBoard-user p2" id="0-2"></td>
         </tr>
         <tr id="Deuces">
-          <th class="scoreBoard-categories" id="">
+          <th class="scoreBoard-categories" id="" data-tooltip-text="2가 나온 주사위의 총합 / 최대 10점">
             <img class="score_img" src="/img/Deuces.png" alt="Deuces_Dice"> Deuces</td>
           <td class="scoreBoard-user p1" id="1-1"></td>
           <td class="scoreBoard-user p2" id="1-2"></td>
         </tr>
         <tr id="Threes">
-          <th class="scoreBoard-categories" id="">
+          <th class="scoreBoard-categories" id="" data-tooltip-text="3이 나온 주사위의 총합 / 최대 15점">
             <img class="score_img" src="/img/Threes.png" alt="Threes_Dice"> Threes</td>
           <td class="scoreBoard-user p1" id="2-1"></td>
           <td class="scoreBoard-user p2" id="2-2"></td>
         </tr>
         <tr id="Fours">
-          <th class="scoreBoard-categories" id="">
+          <th class="scoreBoard-categories" id="" data-tooltip-text="4가 나온 주사위의 총합 / 최대 20점">
             <img class="score_img" src="/img/Fours.png" alt="Fours_Dice"> Fours</td>
           <td class="scoreBoard-user p1" id="3-1"></td>
           <td class="scoreBoard-user p2" id="3-2"></td>
         </tr>
         <tr id="Fives">
-          <th class="scoreBoard-categories" id="">
+          <th class="scoreBoard-categories" id="" data-tooltip-text="5가 나온 주사위의 총합 / 최대 25점">
             <img class="score_img" src="/img/Fives.png" alt="Fives_Dice"> Fives</td>
           <td class="scoreBoard-user p1" id="4-1"></td>
           <td class="scoreBoard-user p2" id="4-2"></td>
         </tr>
         <tr id="Sixes">
-          <th class="scoreBoard-categories" id="">
+          <th class="scoreBoard-categories" id="" data-tooltip-text="6이 나온 주사위의 총합 / 최대 30점">
             <img class="score_img" src="/img/Sixes.png" alt="Sixes_Dice"> Sixes</td>
           <td class="scoreBoard-user p1" id="5-1"></td>
           <td class="scoreBoard-user p2" id="5-2"></td>
@@ -83,37 +83,39 @@
           <td class="scoreBoard-user p2 scoreSet" id="7-2"></td>
         </tr>
         <tr id="Choice">
-          <th class="scoreBoard-categories" id="">
+          <th class="scoreBoard-categories" id="" data-tooltip-text="주사위 눈 5개의 총합 / 최대 30점">
             <img class="score_img" src="/img/Choice.png" alt="Choice_icon"> Choice</td>
           <td class="scoreBoard-user p1" id="8-1"></td>
           <td class="scoreBoard-user p2" id="8-2"></td>
         </tr>
         <tr id="FourOfKind">
-          <th class="scoreBoard-categories" id="">
+          <th class="scoreBoard-categories" id="" data-tooltip-text="동일한 주사위 눈이 4개 이상일 때 주사위 5개의 총합 / 최대 30점">
             <img class="score_img" src="/img/FourOfKind.png" alt="Clover_icon"> 4 of a kind</td>
           <td class="scoreBoard-user p1" id="9-1"></td>
           <td class="scoreBoard-user p2" id="9-2"></td>
         </tr>
         <tr id="FullHouse">
-          <th class="scoreBoard-categories" id="">
+          <th class="scoreBoard-categories" id="" data-tooltip-text="동일한 주사위 눈이 각각 3개, 2개 일때 주사위의 총합 / 최대 28점">
             <img class="score_img" src="/img/FullHouse.png" alt="House_icon"> Full House</td>
           <td class="scoreBoard-user p1" id="10-1"></td>
           <td class="scoreBoard-user p2" id="10-2"></td>
         </tr>
         <tr id=SmallStraight>
-          <th class="scoreBoard-categories" id="">
+          <th class="scoreBoard-categories" id="" data-tooltip-text="이어지는 주사위 눈이 4개 이상일때 고정 15점">
             <img class="score_img" src="/img/SmallStraight.png" alt="Snake_icon"> S. Straight</td>
           <td class="scoreBoard-user p1" id="11-1"></td>
           <td class="scoreBoard-user p2" id="11-2"></td>
         </tr>
         <tr id=LargeStraight>
-          <th class="scoreBoard-categories" id="">
+          <th class="scoreBoard-categories" id="" data-tooltip-text="이어지는 주사위 눈이 5개 이상일때 고정 30점">
             <img class="score_img" src="/img/LargeStraight.png" alt="Dragon_icon"> L. Straight</td>
-          <td class="scoreBoard-user p1" id="12-1"></td>
-          <td class="scoreBoard-user p2" id="12-2"></td>
+          <div class="container">
+            <td class="scoreBoard-user p1" id="12-1">
+            <td class="scoreBoard-user p2" id="12-2"></td>
+          </div>
         </tr>
         <tr id="Yacht">
-          <th class="scoreBoard-categories" id="">
+          <th class="scoreBoard-categories" id="" data-tooltip-text="동일한 주사위 눈이 5개 일때 고정 50점">
             <img class="score_img" src="/img/Yacht.png" alt="Yacht_icon"> Yacht</td>
           <td class="scoreBoard-user p1" id="13-1"></td>
           <td class="scoreBoard-user p2" id="13-2"></td>
@@ -124,30 +126,69 @@
             <td class="scoreBoard-user p2 scoreSet" id="14-2"></td>
         </tr>
         <tr>
-          <td class="scoreBoard-categories" colspan="3" style="height:50px; text-align: center; font-size: 25px; background-color: lightskyblue;">
+          <td class="scoreBoard-categories" colspan="3" style="text-align: center; background-color: lightskyblue;">
             <a href="rule.html" target="_blank">Yacht Dice Rule</a>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-  <div class="DiceArea">
-    <div class="DiceSet">
-      <div class="Dice" id="Dice0"></div>
-      <div class="Dice" id="Dice1"></div>
-      <div class="Dice" id="Dice2"></div>
-      <div class="Dice" id="Dice3"></div>
-      <div class="Dice" id="Dice4"></div>
+  
+  <div class="DiceContainer">
+    <div class="DiceOutFrame">
+      <div class="DiceInner1Frame">
+        <div class="DiceInner2Frame">
+          <div class="DiceInner3Frame">
+            <div class="DiceArea">
+              <div class="LeftArea">
+                <div id = "whosTurn" class="whosTurn">P1's Turn : </div>
+                <div id="LeftNumber" class="leftNumber">(3/3)</div>
+              </div>
+              <div class="DiceSet">
+                <div class="Dice" id="Dice0"></div>
+                <div class="Dice" id="Dice1"></div>
+                <div class="Dice" id="Dice2"></div>
+                <div class="Dice" id="Dice3"></div>
+                <div class="Dice" id="Dice4"></div>
+              </div>
+              <div class="ButtonArea">
+                <button type="button" class="rollBtn" id="rollButton">Roll</button>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
-    <div class="ButtonArea">
-      <button type="button" class="btn btn-success" id="rollButton" style="width: 100%; height: 64px;">주사위 굴리기 (3/3)</button>
-    </div>
-    <div class="ButtonArea" id="resetArea">
-      <ul id="chat"></ul>
     </div>
   </div>
+  
+  <div class="chatContainer">
+    <div class="chatOuterContainer">
+      <div class="chatTextContainer">
+        <div class="charTextInnerContainer">
+          <ul id="chat"></ul>
+        </div>
+      </div>
+      <div class="charInputContainer">
+        <input
+            type="text"
+            id = "chatInputText"
+            size="30"
+            class="inputText"
+            placeholder="채팅 입력"
+          />
+        <button class="sendButton" onclick="onSendChat()">
+          보내기
+        </button>
+      </div>
+    </div>
+  </div>
+  </div>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="/js/YachtDice.js"></script></body>
+  <script src="/js/YachtDice.js"></script>
+  <script src="/js/effect.js"></script>
+</body>
+  
 
 </html>
