@@ -4,6 +4,7 @@ var myName = "";
 var room = "";
 //socket추가해줘야 할듯?
 const diceElement = []; //HTML의 주사위 원소를 저장할 배열
+const cubeElement = [];
 const rollButton = document.getElementById("rollButton"); //페이지의 주사위 굴리기 버튼
 const turnElement = document.getElementById("turn"); // 페이지에서 차례를 나타내는 부분
 const resetArea = document.getElementById("resetArea"); // 리셋버튼이 나타나는 div
@@ -23,6 +24,7 @@ for (let i = 0; i < 5; i++) {
     selectDice(i);
   });
   diceElement[i].innerHTML = 0;
+  cubeElement[i] = document.getElementById("Cube" + i);
 }
 
 //페이지의 점수판을 가져와 변수로 저장
@@ -100,8 +102,10 @@ socket.on("updateDice", function (dice, selectedDice, rollCount) {
 
   for (let i = 0; i < 5; i++) {
     if (!selectedDice[i]) {
-      diceElement[i].style.transform =
-        "rotate(" + getRandomInt(-60, 61) + "deg)";
+      cubeElement[i].classList.remove("spin");
+      cubeElement[i].offsetWidth = cubeElement[i].offsetWidth; 
+      cubeElement[i].classList.add("spin");
+
       diceElement[i].className = "Dice";
     }
     diceElement[i].innerHTML = dice[i];
@@ -114,11 +118,8 @@ socket.on("selectDiceUpdate", function (selected, dice_id) {
 
   if (selected) {
     diceElement[dice_id].className = "SelectedDice";
-    diceElement[dice_id].style.transform = "rotate(0deg)";
   } else {
     diceElement[dice_id].className = "Dice";
-    diceElement[dice_id].style.transform =
-      "rotate(" + getRandomInt(-60, 61) + "deg)";
   }
 });
 
@@ -172,9 +173,9 @@ socket.on("setListener", function (player, score) {
 socket.on("overTurnClient", function (otherPlayer) {
   console.log("client overTurn");
 
-  for (let i = 0; i < 5; i++) {
-    diceElement[i].style.transform = "rotate(0deg)";
-  }
+  // for (let i = 0; i < 5; i++) {
+  //   diceElement[i].style.transform = "rotate(0deg)";
+  // }
   if (otherPlayer == 2) {
     turnElement.innerHTML = "P1's Turn";
     whosTurnElement.innerHTML = "P1's Turn : ";

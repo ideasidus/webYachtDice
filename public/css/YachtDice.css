@@ -360,25 +360,28 @@ td {
   width: 6vw;
   height: 6vw;
   background-color: #f5f5f5;
-  border: 1px solid;
-  padding: 5px;
+  /* border: 1px solid;
+  padding: 5px; */
   font-size: 2.5vw;
   font-weight: bold;
   text-align: center;
-  margin: 1.4vw;
+  /* margin: 1.4vw; */
   color: black;
   transition-duration: 0.3s;
+  transform: translateZ(3vw); 
 }
 
 .SelectedDice {
-  width: 6.5vw;
-  height: 6.5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: black;
-  border: 1px solid;
-  padding: 10px;
-  font-size: 2.8vw;
+  /* border: 1px solid;
+  padding: 10px; */
+  font-size: 3vw;
+  font-weight: bold;
   text-align: center;
-  margin: 1.6vw;
+  /* margin: 1.6vw; */
   color: white;
   transition-duration: 0.3s;
 }
@@ -420,4 +423,88 @@ td {
 
 .rule {
   width: 49%;
+}
+
+.wrapper {
+  width: 100%;
+  perspective: 800;
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /*가로에서 가운데에 요소(자식요소)를 배치하겠다*/
+  align-items: center; /* 세로에서 가운데에 요소를 배치하겠다 */
+}
+
+.cube {
+  position: flex;
+  top: 160px;
+  margin: 1.4vw;
+  height: 6vw;
+  width: 6vw;
+}
+
+.spin{
+  animation : spin 0.8s linear;
+  transform-style: preserve-3d;
+}
+
+@keyframes spin {
+  from { transform: rotateY(0) rotateX(0); }
+  to   { transform: rotateY(-360deg) rotateX(360deg); }
+}
+
+.delay0{
+  animation-delay: 0s;
+}
+
+.delay1{
+  animation-delay: 0.1s;
+}
+
+.delay2{
+  animation-delay: 0.2s;
+}
+
+.cube > div {
+  position: absolute;
+  height: 6vw;
+  width: 6vw;
+  border: 1px solid black;
+  /* opacity: .8; */
+}
+
+.cube > div:hover {
+  opacity: 1;
+  transition: opacity .3s linear;
+  background-color: black;
+  color: white;
+}
+
+.one { 
+  transform: rotateX(90deg) translateZ(3vw); 
+  background-color: #f5f5f5;
+}
+
+.two { 
+  transform: translateZ(3vw); 
+  background-color: #f5f5f5;
+}
+
+.three { 
+  transform: rotateY(90deg) translateZ(3vw); 
+  background-color: #f5f5f5;
+}
+
+.four { 
+  transform: rotateY(180deg) translateZ(3vw); 
+  background-color: #f5f5f5;
+}
+
+.five { 
+  transform: rotateY(-90deg) translateZ(3vw); 
+  background-color: #f5f5f5;
+}
+
+.six { 
+  transform: rotateX(-90deg) translateZ(3vw); 
+  background-color: #f5f5f5;
 }
