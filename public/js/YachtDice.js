@@ -238,11 +238,22 @@ socket.on("myTotalScore", function (total, player) {
 socket.on("winnerIs", function (player) {
   if (player == 1) {
     resetButton.textContent = "[Player 1] 승리!";
+    alert("[플레이어 1] 이 이겼습니다! 방 참가 페이지로 이동합니다.");
+    location.replace("../../join");
   } else if (player == 2) {
     resetButton.textContent = "[Player 2] 승리!";
+    alert("[플레이어 2] 가 이겼습니다! 방 참가 페이지로 이동합니다.")
+    location.replace("../../join");
   } else {
     resetButton.textContent = "비겼습니다! 새 게임 시작";
+    alert("비겼습니다. 방 참가 페이지로 이동합니다.")
+    location.replace("../../join");
   }
-  resetArea.appendChild(resetButton);
+  // resetArea.appendChild(resetButton);
   socket.emit("updateWin", player);
+});
+
+socket.on("enemyLeave", function(){
+  alert("상대방이 도망쳤습니다. 방 참가 페이지로 이동합니다.")
+  location.replace("../../join");
 });

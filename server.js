@@ -115,6 +115,10 @@ io.on("connection", function (socket) {
 
   if (rooms[room] == 2) {
     io.to(room).emit("overTurnClient", socket.player);
+    io.to(room).emit(
+      "chat message",
+      "게임이 시작됩니다."
+    );
   } else {
   }
 
