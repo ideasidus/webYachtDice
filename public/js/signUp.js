@@ -8,7 +8,8 @@ const months = document.querySelector(".months");
 const days = document.querySelector(".days");
 const genderContainer = document.querySelector(".gender");
 
-const socket = io("http://localhost:3000");
+var port = process.env.PORT || 3000;
+const socket = io();
 console.log(socket);
 
 function showFail() {

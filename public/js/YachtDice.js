@@ -48,10 +48,10 @@ function selectDice(dice_id) {
 }
 
 function setScore(event) {
-  console.log("setScoreFunc called");
+  //console.log("setScoreFunc called");
   var score_id = event.target.id.split("-");
   score_id = score_id[0];
-  console.log("socketID = " + socket.player);
+  //console.log("socketID = " + socket.player);
 
   socket.emit("setScore", score_id);
   rollButton.removeEventListener("click", rollDice); // 주사위 굴리기를 눌렀을때 rollDice 함수가 불리도록 이벤트 리스너
@@ -83,10 +83,10 @@ socket.on("gameFull", function (room) {
 });
 
 socket.on("myData", function (data) {
-  console.log("myData called");
+  //console.log("myData called");
   myName = data.name;
   room = data.room;
-  console.log(myName, room);
+  //console.log(myName, room);
 });
 //서버로 메세지 보낼 때
 const onSendChat = () => {
@@ -102,7 +102,7 @@ socket.on("chat message", function (data) {
   var str_cut = str.substring(str.length - 10, str.length);
   if ("게임이 시작됩니다." == str_cut) {
     startIconElement.className += " show_start_icon";
-    console.log(true);
+    //console.log(true);
     setTimeout(() => {
       startIconElement.classList.remove("show_start_icon");
     }, 2000);
@@ -111,8 +111,8 @@ socket.on("chat message", function (data) {
 });
 
 socket.on("updateDice", function (dice, selectedDice, rollCount) {
-  console.log("client updateDice");
-  console.log(dice, selectedDice, rollCount);
+  //console.log("client updateDice");
+  //console.log(dice, selectedDice, rollCount);
 
   for (let i = 0; i < 5; i++) {
     if (!selectedDice[i]) {
@@ -128,7 +128,7 @@ socket.on("updateDice", function (dice, selectedDice, rollCount) {
 });
 
 socket.on("selectDiceUpdate", function (selected, dice_id) {
-  console.log("client selectDiceUpdate");
+  //console.log("client selectDiceUpdate");
 
   if (selected) {
     diceElement[dice_id].className = "SelectedDice";
@@ -138,7 +138,7 @@ socket.on("selectDiceUpdate", function (selected, dice_id) {
 });
 
 socket.on("showTempScore", function (score, tempScore, player) {
-  console.log("client showTempScore");
+  //console.log("client showTempScore");
   if (player == 1) {
     for (let i = 0; i < 6; i++) {
       if (score[i] == undefined) {
@@ -165,8 +165,8 @@ socket.on("showTempScore", function (score, tempScore, player) {
 });
 
 socket.on("setListener", function (player, score) {
-  console.log("client setListener for player " + player);
-  console.log("it's score is " + score);
+  //console.log("client setListener for player " + player);
+  //console.log("it's score is " + score);
 
   rollButton.addEventListener("click", rollDice); // 주사위 굴리기를 눌렀을때 rollDice 함수가 불리도록 이벤트 리스너
   if (player == 1) {
@@ -185,7 +185,7 @@ socket.on("setListener", function (player, score) {
 });
 
 socket.on("overTurnClient", function (otherPlayer) {
-  console.log("client overTurn");
+  //console.log("client overTurn");
   if (otherPlayer == 2) {
     turnElement.innerHTML = "P1's Turn";
     whosTurnElement.innerHTML = "P1's Turn : ";
@@ -197,7 +197,7 @@ socket.on("overTurnClient", function (otherPlayer) {
 });
 
 socket.on("updateScore", function (score, player) {
-  console.log("client updateScore");
+  //console.log("client updateScore");
 
   if (player == 1) {
     for (let i = 0; i < 15; i++) {
@@ -229,7 +229,7 @@ socket.on("updateScore", function (score, player) {
 });
 
 socket.on("highlight", function (player) {
-  console.log("client highlight");
+  //console.log("client highlight");
 
   for (let i = 0; i < p1Element.length; i++) {
     if (player == 2) {
@@ -247,7 +247,7 @@ socket.on("highlight", function (player) {
 });
 
 socket.on("myTotalScore", function (total, player) {
-  console.log("myTotalScore called " + total + " " + player);
+  //console.log("myTotalScore called " + total + " " + player);
   socket.emit("setTotalScore", total, player);
 });
 
@@ -263,7 +263,7 @@ socket.on("winnerIs", function (player) {
     alert("비겼습니다. 방 참가 페이지로 이동합니다.");
   }
 
-  console.log(`winner is ${player}`);
+  //console.log(`winner is ${player}`);
   // resetArea.appendChild(resetButton);
   socket.emit("updateWin", player);
 

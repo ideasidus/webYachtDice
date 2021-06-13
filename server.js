@@ -30,8 +30,9 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 
 // 3000번 포트에 개방
-server.listen(3001, function () {
-  console.log("Socket IO server listening on port 3000");
+var port = process.env.PORT || 3000;
+server.listen(port, function () {
+  // console.log("Socket IO server listening on port 3000");
 });
 
 // 루트페이지 호출 시 join-room.html 반환 (이름과 방코드 입력)
@@ -70,7 +71,7 @@ app.post("/login", (req, res) => {
 app.post("/join", function (req, res) {
   name = req.body.name;
   room = req.body.room;
-  console.log(name, room);
+  // console.log(name, room);
   if (rooms[room] >= 2) {
     res.sendFile(__dirname + "/join-room-error.html");
   } else {
@@ -96,46 +97,46 @@ io.on("connection", function (socket) {
   var tempScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //주사위 눈에 따라 계산되는 임시 점수 변수
   var turn = 0; //몇번 차례가 돌았는지 기록하는 변수
   //기존 방에 재참여하여 인원수를 늘리는 것을 막는 코드.
-  console.log(name + " connect to socket");
+  // console.log(name + " connect to socket");
 
   socket.name = name;
   socket.room = room;
 
   socket.emit("myData", {
-    name: name,
-    room: room,
+    name: socket.name,
+    room: socket.room,
   });
 
-  console.log(name + " try join room " + room);
+  // console.log(name + " try join room " + socket.room);
 
   // room에 join시킨다. 인원수를 체크하고 새로운 방을 만들거나 기존방에 참가.
   // 2명 이상일 시 따로 처리해야함.
-  if (rooms[room] == undefined) {
-    rooms[room] = 0;
-    roomsInfo[room] = 0;
+  if (rooms[socket.room] == undefined) {
+    rooms[socket.room] = 0;
+    roomsInfo[socket.room] = 0;
   }
 
-  socket.join(room);
-  rooms[room]++;
-  if (room != undefined) {
-    roomsInfo[room]++;
+  socket.join(socket.room);
+  rooms[socket.room]++;
+  if (socket.room != undefined) {
+    roomsInfo[socket.room]++;
   }
-  player = rooms[room];
+  player = rooms[socket.room];
   socket.player = player;
-  console.log("room " + room + " 접속인원 " + rooms[room] + "(명)");
+  // console.log("room " + socket.room + " 접속인원 " + rooms[socket.room] + "(명)");
   // io.to(room).emit(
   //   "chat message",
   //   "player " + player + ", " + name + " 이(가) 게임에 참여했습니다."
   // );
-  io.to(room).emit(
+  io.to(socket.room).emit(
     "chat message",
     `<div class="alert_message"><i class="fas fa-volume-up"></i> <strong>Player${player}</strong>: ${name}이(가) 게임에 참여했습니다.<div>`
   );
-  console.log(name + " join room " + room);
+  // console.log(socket.name + " join room " + room);
 
-  if (rooms[room] == 2) {
-    io.to(room).emit("overTurnClient", socket.player);
-    io.to(room).emit("chat message", "게임이 시작됩니다.");
+  if (rooms[socket.room] == 2) {
+    io.to(socket.room).emit("overTurnClient", socket.player);
+    io.to(socket.room).emit("chat message", "게임이 시작됩니다.");
   } else {
   }
 
@@ -144,28 +145,33 @@ io.on("connection", function (socket) {
   });
 
   socket.on("chat message", (chatMessage) => {
-    io.emit("chat message", `<strong>${socket.name}</strong>: ${chatMessage}`);
+    io.to(socket.room).emit("chat message", `<strong>${socket.name}</strong>: ${chatMessage}`);
   });
 
   socket.on("disconnect", function () {
-    console.log("user disconnected: " + socket.name);
+    // console.log("user disconnected: " + socket.name);
     // io.to(room).emit(
     //   "chat message",
     //   "player " + player + ", " + name + " 이(가) 게임을 떠났습니다."
     // );
-    io.to(room).emit(
+    io.to(socket.room).emit(
       "chat message",
-      `<div class="alert_message"><i class="fas fa-volume-up"></i> <strong>Player${player}</strong>: ${name}이(가) 게임을 떠났습니다.<div>`
+      `<div class="alert_message"><i class="fas fa-volume-up"></i> <strong>Player${socket.player}</strong>: ${socket.name}이(가) 게임을 떠났습니다.<div>`
     );
-    socket.leave(socket.room);
-    if (room) {
-      rooms[room]--;
-      roomsInfo[room]--;
+    if (socket.room) {
+      rooms[socket.room]--;
+      roomsInfo[socket.room]--;
+      if (rooms[socket.room])
+      {
+        rooms[socket.room] = undefined;
+        roomsInfo[socket.room] = undefined;
+      }
     }
+    socket.leave(socket.room);
   });
 
   socket.on("rollDice", function () {
-    console.log("(" + socket.player + ")" + name + "server rollDice");
+    // console.log("(" + socket.player + ")" + name + "server rollDice");
 
     if (rollCount > 0) {
       for (let i = 0; i < 5; i++) {
@@ -175,64 +181,64 @@ io.on("connection", function (socket) {
       }
       rollCount--;
       calcScore();
-      io.to(room).emit("updateDice", dice, selectedDice, rollCount);
-      io.to(room).emit("showTempScore", score, tempScore, socket.player);
+      io.to(socket.room).emit("updateDice", dice, selectedDice, rollCount);
+      io.to(socket.room).emit("showTempScore", score, tempScore, socket.player);
     }
   });
 
   socket.on("selectDice", function (dice_id) {
-    console.log("(" + socket.player + ")" + name + "server selectDice");
+    // console.log("(" + socket.player + ")" + name + "server selectDice");
 
     if (rollCount < 3) {
       selectedDice[dice_id] = !selectedDice[dice_id];
-      io.to(room).emit("selectDiceUpdate", selectedDice[dice_id], dice_id);
+      io.to(socket.room).emit("selectDiceUpdate", selectedDice[dice_id], dice_id);
     }
   });
 
   socket.on("overTurnServer", function (otherPlayer) {
-    console.log("(" + socket.player + ")" + name + "server overTurn");
+    // console.log("(" + socket.player + ")" + name + "server overTurn");
 
     tempScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     for (let i = 0; i < 5; i++) {
       selectedDice[i] = false;
     }
     rollCount = 3;
-    io.to(room).emit("updateDice", dice, selectedDice, rollCount);
-    io.to(room).emit("highlight", otherPlayer);
+    io.to(socket.room).emit("updateDice", dice, selectedDice, rollCount);
+    io.to(socket.room).emit("highlight", otherPlayer);
     if (otherPlayer != socket.player) {
-      console.log(socket.player);
+      // console.log(socket.player);
       io.to(socket.id).emit("setListener", socket.player, score);
     }
     // checkEnd();
   });
 
   socket.on("setScore", function (score_id) {
-    console.log("(" + socket.player + ")" + name + "server setScore");
+    // console.log("(" + socket.player + ")" + name + "server setScore");
 
     score[score_id] = tempScore[score_id];
     calcSum();
     checkBonus();
-    io.to(room).emit("updateScore", score, socket.player);
-    io.to(room).emit("overTurnClient", socket.player);
+    io.to(socket.room).emit("updateScore", score, socket.player);
+    io.to(socket.room).emit("overTurnClient", socket.player);
     turn++;
-    console.log("turn " + turn + " at player " + socket.player);
+    // console.log("turn " + turn + " at player " + socket.player);
     if (turn >= 12) {
-      console.log("my total score if in");
+      // console.log("my total score if in");
 
       totalScore = score[14];
-      io.to(room).emit("myTotalScore", totalScore, socket.player);
+      io.to(socket.room).emit("myTotalScore", totalScore, socket.player);
     }
   });
 
   socket.on("setTotalScore", function (total, player) {
-    console.log(
-      "setTotalScore called at " +
-        socket.player +
-        " about player: " +
-        player +
-        " socre: " +
-        total
-    );
+    // console.log(
+      //   "setTotalScore called at " +
+      //     socket.player +
+      //     " about player: " +
+      //     player +
+      //     " socre: " +
+      //     total
+      // );
     if (player == 1) {
       p1total = total;
     } else {
@@ -245,8 +251,8 @@ io.on("connection", function (socket) {
   });
 
   socket.on("updateWin", function (winner) {
-    console.log(`winner is : ${winner}`);
-    console.log(`socket is : ${socket.player}`);
+    // console.log(`winner is : ${winner}`);
+    // console.log(`socket is : ${socket.player}`);
     //winner 정보에 위너의 socket.player가 전달됨
     if (isUpdate[socket.player - 1] == false) {
       if (winner == 0) {
@@ -254,7 +260,7 @@ io.on("connection", function (socket) {
         db.query(
           `update user_record set draw = draw + 1 where id = '${socket.name}'`,
           function (err, status) {
-            console.log("record draw complete");
+            // console.log("record draw complete");
           }
         );
       } else if (winner == socket.player) {
@@ -262,7 +268,7 @@ io.on("connection", function (socket) {
         db.query(
           `update user_record set win = win + 1 where id = '${socket.name}'`,
           function (err, status) {
-            console.log("record win complete");
+            // console.log("record win complete");
           }
         );
       } else {
@@ -270,7 +276,7 @@ io.on("connection", function (socket) {
         db.query(
           `update user_record set lose = lose + 1 where id = '${socket.name}'`,
           function (err, status) {
-            console.log("record lose complete");
+            // console.log("record lose complete");
           }
         );
       }
@@ -378,20 +384,20 @@ io.on("connection", function (socket) {
 
   //게임 종료를 판별하는 함수
   function checkWinner() {
-    console.log(
-      "checkWinner called at " +
-        socket.player +
-        " and p1score : " +
-        p1total +
-        " and p2score : " +
-        p2total
-    );
+    // // console.log(
+    //   "checkWinner called at " +
+    //     socket.player +
+    //     " and p1score : " +
+    //     p1total +
+    //     " and p2score : " +
+    //     p2total
+    // );
     if (p1total > p2total) {
-      io.to(room).emit("winnerIs", 1);
+      io.to(socket.room).emit("winnerIs", 1);
     } else if (p1total < p2total) {
-      io.to(room).emit("winnerIs", 2);
+      io.to(socket.room).emit("winnerIs", 2);
     } else {
-      io.to(room).emit("winnerIs", 0);
+      io.to(socket.room).emit("winnerIs", 0);
     }
   }
 
@@ -429,7 +435,7 @@ io.on("connection", function (socket) {
       user: data.user,
       pw: data.pw,
     };
-    console.log(data.user, data.pw);
+    // console.log(data.user, data.pw);
     //error?? throw?? 뭔의미
     db.query(
       `select id from user where id = '${data.user}' and pw = '${data.pw}'`,
@@ -471,9 +477,7 @@ io.on("connection", function (socket) {
       },
       msg: data.msg,
     };
-    console.log(
-      `select id,win,lose,draw from user_record where id = '${data.msg}'`
-    );
+    // console.log(`select id,win,lose,draw from user_record where id = '${data.msg}'`);
 
     db.query(
       `select id,win,lose,draw from user_record where id = '${data.msg}'`,
