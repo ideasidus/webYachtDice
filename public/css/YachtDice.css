@@ -1,15 +1,111 @@
 html {
   width: 100%;
   height: 100%;
+  font-family: "jua";
+}
+@font-face {
+  src: url("../font/Digital.ttf");
+  font-family: "jua";
 }
 body {
-  background-image: url("../img/background4.jpg");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-image: url("../img/background5.jpg");
+  background-repeat: repeat;
+  background-size: contain;
+  background-color: #313439;
   width: 100%;
   height: 100%;
+  position: relative;
+  font-family: "jua";
+}
+.roolet_deco {
+  right: 13%;
+  top: -25%;
+  position: absolute;
+  width: 40vw;
+  height: 40vw;
+  z-index: -2;
+}
+.slot {
+  position: absolute;
+  right: 0;
+  width: 13vw;
+  height: 6vw;
+  right: 37%;
+  top: -2%;
+  visibility: hidden;
+}
+.show_slot {
+  visibility: visible;
+  animation: blinking_slot 2s linear backwards;
+  /* visibility: hidden; */
+}
+@keyframes blinking_slot {
+  0% {
+    opacity: 0;
+  }
+  20%,
+  80% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
+.slotMachine_img {
+  position: absolute;
+  width: 13vw;
+  height: 6vw;
+  border-radius: 10px;
+  opacity: 0.9;
+}
+.slot_score_area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.p1_score {
+  font-family: "jua";
+  display: block;
+  font-size: 1.5vw;
+  position: absolute;
+  left: 15%;
+  font-weight: bolder;
+  top: 28%;
+  color: rgb(17, 107, 17);
+}
+.vs_img {
+  width: 4.5vw;
+  height: 4.5vw;
+  position: absolute;
+  right: 35%;
+  top: 12%;
+}
+.p2_score {
+  font-family: "jua";
+  display: block;
+  font-size: 1.5vw;
+  position: absolute;
+  right: 15%;
+  font-weight: bolder;
+  top: 28%;
+  color: rgb(200, 18, 18);
+}
+
+.roolet_deco {
+  animation: rotate_image 15s linear infinite;
+  transform-origin: 50% 50%;
+}
+@keyframes rotate_image {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .score {
   width: 23%;
   height: 99.55vh;
@@ -182,6 +278,9 @@ td {
   height: 40%;
   border-radius: 15px;
 }
+.alert_message {
+  color: royalblue;
+}
 
 .chatOuterContainer {
   position: relative;
@@ -243,7 +342,7 @@ td {
 .sendButton {
   width: 30%;
   height: 100%;
-  background-color: #615f5f;
+  background-color: #2979ff;
   border: none;
   font-size: 1.5vw;
   color: white;
@@ -272,6 +371,8 @@ td {
   justify-content: center;
 }
 .DiceOutFrame {
+  position: relative;
+  margin-top: 10%;
   width: 100%;
   height: 80%;
   border: 25px solid transparent;
@@ -368,7 +469,7 @@ td {
   /* margin: 1.4vw; */
   color: black;
   transition-duration: 0.3s;
-  transform: translateZ(3vw); 
+  transform: translateZ(3vw);
 }
 
 .SelectedDice {
@@ -395,8 +496,8 @@ td {
 }
 .ButtonArea > button {
   border-radius: 100%;
-  width: 6vw;
-  height: 6vw;
+  width: 5vw;
+  height: 5vw;
   background-image: linear-gradient(to left, #909090, #e6e4e3, #e9e9e9);
   box-shadow: 0px 0px 5px 5px black;
   font-size: 2vw;
@@ -442,25 +543,29 @@ td {
   width: 6vw;
 }
 
-.spin{
-  animation : spin 0.8s linear;
+.spin {
+  animation: spin 0.8s linear;
   transform-style: preserve-3d;
 }
 
 @keyframes spin {
-  from { transform: rotateY(0) rotateX(0); }
-  to   { transform: rotateY(-360deg) rotateX(360deg); }
+  from {
+    transform: rotateY(0) rotateX(0);
+  }
+  to {
+    transform: rotateY(-360deg) rotateX(360deg);
+  }
 }
 
-.delay0{
+.delay0 {
   animation-delay: 0s;
 }
 
-.delay1{
+.delay1 {
   animation-delay: 0.1s;
 }
 
-.delay2{
+.delay2 {
   animation-delay: 0.2s;
 }
 
@@ -474,37 +579,69 @@ td {
 
 .cube > div:hover {
   opacity: 1;
-  transition: opacity .3s linear;
+  transition: opacity 0.3s linear;
   background-color: black;
   color: white;
 }
 
-.one { 
-  transform: rotateX(90deg) translateZ(3vw); 
+.one {
+  transform: rotateX(90deg) translateZ(3vw);
   background-color: #f5f5f5;
 }
 
-.two { 
-  transform: translateZ(3vw); 
+.two {
+  transform: translateZ(3vw);
   background-color: #f5f5f5;
 }
 
-.three { 
-  transform: rotateY(90deg) translateZ(3vw); 
+.three {
+  transform: rotateY(90deg) translateZ(3vw);
   background-color: #f5f5f5;
 }
 
-.four { 
-  transform: rotateY(180deg) translateZ(3vw); 
+.four {
+  transform: rotateY(180deg) translateZ(3vw);
   background-color: #f5f5f5;
 }
 
-.five { 
-  transform: rotateY(-90deg) translateZ(3vw); 
+.five {
+  transform: rotateY(-90deg) translateZ(3vw);
   background-color: #f5f5f5;
 }
 
-.six { 
-  transform: rotateX(-90deg) translateZ(3vw); 
+.six {
+  transform: rotateX(-90deg) translateZ(3vw);
   background-color: #f5f5f5;
+}
+/* //////////////////////////// */
+.game_start_icon {
+  width: 20vw;
+  height: 10vw;
+  left: 30%;
+  top: 7.5%;
+  position: absolute;
+  visibility: hidden;
+  z-index: 10;
+}
+.game_start_icon_img {
+  width: 20vw;
+  height: 10vw;
+}
+.show_start_icon {
+  visibility: visible;
+  animation: blinking_slot 2s linear forwards;
+  /* visibility: hidden; */
+}
+@keyframes blinking_slot {
+  0% {
+    opacity: 0;
+  }
+  20%,
+  80% {
+    opacity: 1;
+    transform: scale(1.8);
+  }
+  100% {
+    opacity: 0;
+  }
 }

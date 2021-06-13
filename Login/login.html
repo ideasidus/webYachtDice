@@ -3,72 +3,88 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Socket.io Chat Example</title>
+    <title>YachtDice</title>
+
+    <link rel="stylesheet" href="css/style.css" />
     <link type="text/css" rel="stylesheet" href="/css/login.css" />
   </head>
   <body>
     <section class="center">
-      <div class="header">
-        <h1>
-          <a href="/" class="logo">
-            <span class="service-name">LOGIN SERVICE</span>
-          </a>
-        </h1>
-      </div>
-      <div class="form-wrap">
-        <div class="user-info">
-          <form
-            action="login"
-            method="POST"
-            id="login-form"
-            class="user-info-form"
-          >
-            <input
-              type="text"
-              id="id"
-              class="id"
-              placeholder="아이디"
-              name="id"
-            />
-            <input
-              id="pwd"
-              class="pwd"
-              name="pwd"
-              type="password"
-              placeholder="비밀번호"
-            />
-            <input type="submit" class="login-Btn" value="로그인" />
-          </form>
+      <div class="main-content">
+        <div class="header">
+          <h1>
+            <a href="/" class="logo">
+              <span class="service-name">Login</span>
+            </a>
+          </h1>
         </div>
-        <div class="check-box-form">
-          <div class="id-check-box-form">
-            <label>ID 저장<input class="save-ID" type="checkbox" /></label>
+        <div class="form-wrap">
+          <div class="user-info">
+            <form
+              action="login"
+              method="POST"
+              id="login-form"
+              class="user-info-form"
+            >
+              <input
+                type="text"
+                id="id"
+                class="id"
+                placeholder="아이디"
+                name="id"
+              />
+              <input
+                id="pwd"
+                class="pwd"
+                name="pwd"
+                type="password"
+                placeholder="비밀번호"
+              />
+              <input type="submit" class="login-Btn" value="로그인" />
+            </form>
           </div>
-          <span class="bar">|</span>
-          <div class="pwd-check-box-form">
-            <label
-              >PWD 숨기기<input
-                class="hide-PWD"
-                type="checkbox"
-                checked
-                onclick="checkedHP()"
-            /></label>
-          </div>
-          <div class="abs-Btn">
-            <span class="abs-ps-box">
+          <div class="check-box-form">
+            <div class="id-check-box-form">
+              <label>ID 저장<input class="save-ID" type="checkbox" /></label>
+            </div>
+            <span class="bar">|</span>
+            <div class="pwd-check-box-form">
               <label
-                ><input
-                  class="sign-up"
-                  type="button"
-                  value="회원가입"
-                  onclick="handleSignUp()"
+                >PWD 숨기기<input
+                  class="hide-PWD"
+                  type="checkbox"
+                  checked
+                  onclick="checkedHP()"
               /></label>
-            </span>
+            </div>
+            <div class="abs-Btn">
+              <span class="abs-ps-box">
+                <label
+                  ><input
+                    class="sign-up"
+                    type="button"
+                    value="회원가입"
+                    onclick="handleSignUp()"
+                /></label>
+              </span>
+            </div>
           </div>
         </div>
+      </div>
+      <div class="navio">
+        <nav class="menu">
+          <header>Menu <span></span></header>
+          <ol>
+            <li class="menu-item"><a href="/">Home</a></li>
+            <li class="menu-item"><a href="/login">Login</a></li>
+            <li class="menu-item"><a href="/pvp">Match</a></li>
+          </ol>
+        </nav>
       </div>
     </section>
     <script src="/js/login.js"></script>
+    <script src="../index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </body>
 </html>

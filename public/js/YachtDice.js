@@ -10,7 +10,10 @@ const turnElement = document.getElementById("turn"); // 페이지에서 차례�
 const resetArea = document.getElementById("resetArea"); // 리셋버튼이 나타나는 div
 const resetButton = document.createElement("button"); // 게임 종료후 승자와 게임 재시작 여부를 보여주는 원소
 const whosTurnElement = document.getElementById("whosTurn");
-
+const slotP1ScoreElement = document.getElementById("slot_p1_score");
+const slotP2ScoreElement = document.getElementById("slot_p2_score");
+const slotElement = document.getElementById("slot");
+const startIconElement = document.getElementById("game_start_icon");
 //리셋 버튼의 스타일과 클릭시 호출할 함수를 정함
 resetButton.className = "btn btn-primary";
 resetButton.style.width = "30%";
@@ -94,6 +97,17 @@ const onSendChat = () => {
 // 서버로부터의 메시지가 수신되면
 socket.on("chat message", function (data) {
   $("#chat").append($("<li>").html(data));
+  //////////////////////////////////////
+  var str = $("#chat").text();
+  var str_cut = str.substring(str.length - 10, str.length);
+  if ("게임이 시작됩니다." == str_cut) {
+    startIconElement.className += " show_start_icon";
+    console.log(true);
+    setTimeout(() => {
+      startIconElement.classList.remove("show_start_icon");
+    }, 2000);
+  }
+  //////////////////////////////////////
 });
 
 socket.on("updateDice", function (dice, selectedDice, rollCount) {
@@ -103,7 +117,7 @@ socket.on("updateDice", function (dice, selectedDice, rollCount) {
   for (let i = 0; i < 5; i++) {
     if (!selectedDice[i]) {
       cubeElement[i].classList.remove("spin");
-      cubeElement[i].offsetWidth = cubeElement[i].offsetWidth; 
+      cubeElement[i].offsetWidth = cubeElement[i].offsetWidth;
       cubeElement[i].classList.add("spin");
 
       diceElement[i].className = "Dice";
@@ -172,10 +186,6 @@ socket.on("setListener", function (player, score) {
 
 socket.on("overTurnClient", function (otherPlayer) {
   console.log("client overTurn");
-
-  // for (let i = 0; i < 5; i++) {
-  //   diceElement[i].style.transform = "rotate(0deg)";
-  // }
   if (otherPlayer == 2) {
     turnElement.innerHTML = "P1's Turn";
     whosTurnElement.innerHTML = "P1's Turn : ";
@@ -199,6 +209,7 @@ socket.on("updateScore", function (score, player) {
       }
     }
     p1Element[6].innerHTML += "/63";
+    slotP1ScoreElement.innerHTML = score[14];
   } else {
     for (let i = 0; i < 15; i++) {
       if (score[i] == undefined) {
@@ -209,7 +220,12 @@ socket.on("updateScore", function (score, player) {
       }
     }
     p2Element[6].innerHTML += "/63";
+    slotP2ScoreElement.innerHTML = score[14];
   }
+  slotElement.className += " show_slot";
+  setTimeout(() => {
+    slotElement.classList.remove("show_slot");
+  }, 2000);
 });
 
 socket.on("highlight", function (player) {
@@ -239,21 +255,22 @@ socket.on("winnerIs", function (player) {
   if (player == 1) {
     resetButton.textContent = "[Player 1] 승리!";
     alert("[플레이어 1] 이 이겼습니다! 방 참가 페이지로 이동합니다.");
-    location.replace("../../join");
   } else if (player == 2) {
     resetButton.textContent = "[Player 2] 승리!";
-    alert("[플레이어 2] 가 이겼습니다! 방 참가 페이지로 이동합니다.")
-    location.replace("../../join");
+    alert("[플레이어 2] 가 이겼습니다! 방 참가 페이지로 이동합니다.");
   } else {
     resetButton.textContent = "비겼습니다! 새 게임 시작";
-    alert("비겼습니다. 방 참가 페이지로 이동합니다.")
-    location.replace("../../join");
+    alert("비겼습니다. 방 참가 페이지로 이동합니다.");
   }
+
+  console.log(`winner is ${player}`);
   // resetArea.appendChild(resetButton);
   socket.emit("updateWin", player);
+
+  location.replace("../../join");
 });
 
-socket.on("enemyLeave", function(){
-  alert("상대방이 도망쳤습니다. 방 참가 페이지로 이동합니다.")
+socket.on("enemyLeave", function () {
+  alert("상대방이 도망쳤습니다. 방 참가 페이지로 이동합니다.");
   location.replace("../../join");
 });

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YachtDice</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="/css/login.css" />
+    <style>
+        body{
+            color: white;
+        }
+    </style>
+  </head>
+  <body>
+    <section class="center">
+      <div class = "main-content">
+        <div class="header">
+            <h1>
+              <a href="/" class="logo">
+                <span class="service-name">Match History</span>
+              </a>
+            </h1>
+          </div>
+        <form class="form-inline">
+          <div class="search-info-form">
+            <input type="text" class="msgForm" id="msgForm" placeholder="검색 아이디">
+          </div>
+          <input type="submit" class="search-Btn" value="검색" />
+        </form>
+        <div id="pvp-log-container">
+            <div id="search-user-id"></div>
+            <div id="search-user-win"></div>
+            <div id="search-user-lose"></div>
+            <div id="search-user-draw"></div>
+        </div>
+      </div>
+      <div class = "navio">
+        <nav class="menu">
+            <header>Menu <span></span></header>
+            <ol>
+                <li class="menu-item"><a href="/">Home</a></li>
+                <li class="menu-item"><a href="/login">Login</a></li>
+                <li class="menu-item"><a href="/pvp">Match</a></li>
+            </ol>
+        </nav>
+      </div>
+    </section>
+    <script src="/js/login.js"></script>
+    <script  src="../index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+  $(function(){
+    // socket.io 서버에 접속한다
+    var socket = io();
+
+    // 서버로부터의 메시지가 수신되면
+    socket.on("logfind", function(data3) {
+        if(data3 == "fail"){
+            alert("사용자가 없습니다.");
+        } else {
+            google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['', '승', '무', '패'],
+          ['', parseInt(data3.win), parseInt(data3.lose), parseInt(data3.draw)],
+        ]);
+
+        var options = {
+          chart: {
+            title: `${data3.id} 전적 검색 결과`,
+          }
+        };
+        var chart = new google.charts.Bar(document.getElementById('pvp-log-container'));
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+        }
+      }
+    });
+
+    // Send 버튼이 클릭되면
+    $("form").submit(function(e) {
+      e.preventDefault();
+      var $msgForm = $("#msgForm");
+
+      // 서버로 메시지를 전송한다.
+      socket.emit("logfind", { msg: $msgForm.val() });
+      $msgForm.val("");
+    });
+  });
+  </script>
+</body>
+</html>

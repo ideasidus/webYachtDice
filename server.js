@@ -1,5 +1,6 @@
 const express = require("express");
 const app = new express();
+const ejs = require("ejs");
 
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
@@ -11,6 +12,7 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+var roomsInfo = {};
 var rooms = {};
 rooms["full"] = 2;
 rooms["empty"] = 0;
@@ -24,17 +26,27 @@ var p2total = 1000;
 
 var isUpdate = [false, false];
 
+app.set("view engine", "ejs");
+app.set("views", "./views");
+
 // 3000번 포트에 개방
-server.listen(3000, function () {
+server.listen(3001, function () {
   console.log("Socket IO server listening on port 3000");
 });
 
 // 루트페이지 호출 시 join-room.html 반환 (이름과 방코드 입력)
 app.get("/", function (req, res) {
+  res.sendFile(__dirname + "/Login/Home.html");
+});
+app.get("/login", function (req, res) {
   res.sendFile(__dirname + "/Login/login.html");
 });
+
+app.get("/pvp", function (req, res) {
+  res.sendFile(__dirname + "/Login/pvp.html");
+});
 app.get("/join", function (req, res) {
-  res.sendFile(__dirname + "/Join/join.html");
+  res.render("join", { roomsInfo });
 });
 app.get("/game", function (req, res) {
   res.sendFile(__dirname + "/index.html");
@@ -100,25 +112,30 @@ io.on("connection", function (socket) {
   // 2명 이상일 시 따로 처리해야함.
   if (rooms[room] == undefined) {
     rooms[room] = 0;
+    roomsInfo[room] = 0;
   }
 
   socket.join(room);
   rooms[room]++;
+  if (room != undefined) {
+    roomsInfo[room]++;
+  }
   player = rooms[room];
   socket.player = player;
   console.log("room " + room + " 접속인원 " + rooms[room] + "(명)");
+  // io.to(room).emit(
+  //   "chat message",
+  //   "player " + player + ", " + name + " 이(가) 게임에 참여했습니다."
+  // );
   io.to(room).emit(
     "chat message",
-    "player " + player + ", " + name + " 이(가) 게임에 참여했습니다."
+    `<div class="alert_message"><i class="fas fa-volume-up"></i> <strong>Player${player}</strong>: ${name}이(가) 게임에 참여했습니다.<div>`
   );
   console.log(name + " join room " + room);
 
   if (rooms[room] == 2) {
     io.to(room).emit("overTurnClient", socket.player);
-    io.to(room).emit(
-      "chat message",
-      "게임이 시작됩니다."
-    );
+    io.to(room).emit("chat message", "게임이 시작됩니다.");
   } else {
   }
 
@@ -129,16 +146,21 @@ io.on("connection", function (socket) {
   socket.on("chat message", (chatMessage) => {
     io.emit("chat message", `<strong>${socket.name}</strong>: ${chatMessage}`);
   });
-  
+
   socket.on("disconnect", function () {
     console.log("user disconnected: " + socket.name);
+    // io.to(room).emit(
+    //   "chat message",
+    //   "player " + player + ", " + name + " 이(가) 게임을 떠났습니다."
+    // );
     io.to(room).emit(
       "chat message",
-      "player " + player + ", " + name + " 이(가) 게임을 떠났습니다."
+      `<div class="alert_message"><i class="fas fa-volume-up"></i> <strong>Player${player}</strong>: ${name}이(가) 게임을 떠났습니다.<div>`
     );
     socket.leave(socket.room);
     if (room) {
       rooms[room]--;
+      roomsInfo[room]--;
     }
   });
 

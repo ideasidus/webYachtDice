@@ -7,7 +7,10 @@ const years = document.querySelector(".years");
 const months = document.querySelector(".months");
 const days = document.querySelector(".days");
 const genderContainer = document.querySelector(".gender");
+
 const socket = io("http://localhost:3000");
+console.log(socket);
+
 function showFail() {
   Swal.fire({
     title: `이미 존재하는 계정 입니다.`,

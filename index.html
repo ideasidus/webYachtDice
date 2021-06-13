@@ -23,6 +23,7 @@
 </head>
 
 <body>
+  
   <div class="score" style="display: flex;">
     <table class="scoreBoard">
       <colgroup>
@@ -136,7 +137,25 @@
   
   <div class="DiceContainer">
     <div class="DiceOutFrame">
+      <div class="slot" id= "slot">
+        <img class = "slotMachine_img" src="/img/slotMachine.png" alt="slot">
+        <div class="slot_score_area">
+          <span class="p1_score" id = "slot_p1_score">
+            0
+          </span>
+          <span class="versus">
+            <img class = "vs_img" src="/img/vs2.png" alt="slot">
+          </span>
+          <span class="p2_score" id = "slot_p2_score">
+          0
+          </span>
+        </div>
+      </div>
+      <img class="roolet_deco" src="/img/r1.png" alt="roolet">
       <div class="DiceInner1Frame">
+        <div id = "game_start_icon" class="game_start_icon">
+          <img id = "game_start_icon_img" class = "game_start_icon_img" src="/img/game_start_icon.png" alt="gamestart">
+        </div>
         <div class="DiceInner2Frame">
           <div class="DiceInner3Frame">
             <div class="DiceArea">
@@ -220,7 +239,10 @@
     </div>
   </div>
   </div>
-
+  <script
+      src="https://kit.fontawesome.com/cde7b33783.js"
+      crossorigin="anonymous"
+    ></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/YachtDice.js"></script>

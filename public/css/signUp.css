@@ -2,8 +2,13 @@ body {
   width: 100%;
   height: 100%;
   position: relative;
-  background: #f5f6f7;
+  background: #2b2929;
+  color: white;
   font-family: Dotum, 돋움, Helvetica, sans-serif;
+  background-image: url("../img/main2_back.png");
+  background-repeat: no-repeat;
+  background-size: 175% 120%;
+  background-position: center;
 }
 .wrap {
   display: flex; /*container식으로 분할하기*/
@@ -19,17 +24,16 @@ body {
   justify-content: center;
   width: 100%;
   margin: 0 auto;
-  padding: 106px 0 53px;
+  padding: 50px 0 23px;
 }
 .logo {
   cursor: pointer;
   text-decoration: none;
   font-size: 60px;
-  color: rgb(97, 95, 95);
+  color: white;
   font-weight: bold;
-  opacity: 0.7;
   margin-top: 50px;
-  margin-bottom: 60px;
+  margin-bottom: 10px;
 }
 .user-account {
   display: block;
@@ -45,6 +49,9 @@ body {
   justify-content: space-between;
   width: 100%;
 }
+.btn-area {
+  margin-bottom: 40px;
+}
 .login-btn {
   cursor: pointer;
   border: none;
@@ -53,19 +60,21 @@ body {
   font-size: 20px;
   font-weight: bold;
   color: white;
-  background-color: rgb(97, 95, 95);
+  background-color: #2979ff;
 }
 .label {
   font-size: 15px;
 }
 
 .id-error {
-  color: red;
+  color: rgb(167, 167, 7);
+  font-weight: bold;
   font-size: 12px;
 }
 
 .pwd-error {
-  color: red;
+  color: rgb(167, 167, 7);
+  font-weight: bold;
   font-size: 12px;
 }
 

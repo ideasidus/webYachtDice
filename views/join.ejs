@@ -29,8 +29,31 @@
           <button class="button mt-20" type="submit">참여하기</button>
         </form>
       </div>
+      <div class="joinRoomList-container">
+        <div class="joinRoomList">
+          <span>Room List</span>
+          <% if(Object.keys(roomsInfo).length !== 0){ %>
+          <ul class="room-list-ul">
+            <% for ( var i = 0; i < Object.keys(roomsInfo).length; i++){ %> <%
+            if(Object.keys(roomsInfo)[i] !== "undefined" &&
+            roomsInfo[Object.keys(roomsInfo)[i]] !==0) {%>
+            <li class="room-list">
+              <% if(roomsInfo[Object.keys(roomsInfo)[i]]!== 2){ %>
+              <img class="online icon" src="../img/onlineIcon.png" />
+              <% }else{ %>
+              <img class="offline icon" src="../img/offlineIcon.png" />
+              <% } %> <%= Object.keys(roomsInfo)[i] %> 번방
+              &emsp;&emsp;&emsp;&emsp; <%= roomsInfo[Object.keys(roomsInfo)[i]]
+              %>/2명
+            </li>
+            <% } %> <% } %>
+          </ul>
+          <% }else{ %>
+          <p>Empty</p>
+          <% } %>
+        </div>
+      </div>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="/js/join.js"></script>
   </body>
 </html>

@@ -3,18 +3,20 @@ body {
   font-family: Dotum, 돋움, Helvetica, sans-serif;
   padding: 0;
   margin: 0;
-  background-image: url("../img/background4.jpg");
+  background-image: url("../img/main_back.jpg");
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 
 * {
   box-sizing: border-box;
+  list-style: none;
 }
 
 .joinOuterContainer {
@@ -24,13 +26,14 @@ body {
   height: 70vh;
   width: 50vw;
   align-items: center;
-  background: #f5f6f7;
+  background: transparent;
   padding: 20px;
   border-radius: 20px;
-  box-shadow: inset 5px 5px 8px #795134;
+  opacity: 1;
 }
 
 .joinInnerContainer {
+  padding-top: 15%;
   width: 60%;
 }
 
@@ -42,18 +45,18 @@ body {
 }
 
 .heading {
-  color: rgb(97, 95, 95);
+  color: white;
   font-size: 3.5em;
   padding-bottom: 10px;
   border-bottom: solid 1px #949090;
-  opacity: 0.7;
+  opacity: 1;
 }
 
 .button {
-  color: #fff !important;
+  color: white;
   text-transform: uppercase;
   text-decoration: none;
-  background-color: rgb(97, 95, 95);
+  background-color: #2979ff;
   padding: 20px;
   border-radius: 5px;
   display: inline-block;
@@ -80,4 +83,25 @@ body {
 
 button:focus {
   outline: 0;
+}
+.online {
+  width: 9px;
+  height: 9px;
+}
+.joinRoomList-container {
+  margin-left: 30px;
+}
+.joinRoomList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.joinRoomList > span {
+  display: flex;
+  justify-content: flex-end;
+  font-size: larger;
+  margin-bottom: 10px;
+}
+.room-list {
+  margin-bottom: 10px;
 }
