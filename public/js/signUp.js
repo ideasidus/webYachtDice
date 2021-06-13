@@ -8,7 +8,6 @@ const months = document.querySelector(".months");
 const days = document.querySelector(".days");
 const genderContainer = document.querySelector(".gender");
 
-var port = process.env.PORT || 3000;
 const socket = io();
 console.log(socket);
 
