@@ -30,10 +30,11 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 
 // 3000번 포트에 개방
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3001;
 server.listen(port, function () {
   // console.log("Socket IO server listening on port 3000");
 });
+
 
 // 루트페이지 호출 시 join-room.html 반환 (이름과 방코드 입력)
 app.get("/", function (req, res) {
@@ -71,7 +72,7 @@ app.post("/login", (req, res) => {
 app.post("/join", function (req, res) {
   name = req.body.name;
   room = req.body.room;
-  // console.log(name, room);
+  //console.log(name, room);
   if (rooms[room] >= 2) {
     res.sendFile(__dirname + "/join-room-error.html");
   } else {
@@ -97,7 +98,7 @@ io.on("connection", function (socket) {
   var tempScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //주사위 눈에 따라 계산되는 임시 점수 변수
   var turn = 0; //몇번 차례가 돌았는지 기록하는 변수
   //기존 방에 재참여하여 인원수를 늘리는 것을 막는 코드.
-  // console.log(name + " connect to socket");
+  //console.log(name + " connect to socket");
 
   socket.name = name;
   socket.room = room;
@@ -149,7 +150,7 @@ io.on("connection", function (socket) {
   });
 
   socket.on("disconnect", function () {
-    // console.log("user disconnected: " + socket.name);
+  // console.log("user disconnected: " + socket.name);
     // io.to(room).emit(
     //   "chat message",
     //   "player " + player + ", " + name + " 이(가) 게임을 떠났습니다."
@@ -187,7 +188,7 @@ io.on("connection", function (socket) {
   });
 
   socket.on("selectDice", function (dice_id) {
-    // console.log("(" + socket.player + ")" + name + "server selectDice");
+   // console.log("(" + socket.player + ")" + name + "server selectDice");
 
     if (rollCount < 3) {
       selectedDice[dice_id] = !selectedDice[dice_id];
@@ -232,13 +233,13 @@ io.on("connection", function (socket) {
 
   socket.on("setTotalScore", function (total, player) {
     // console.log(
-      //   "setTotalScore called at " +
-      //     socket.player +
-      //     " about player: " +
-      //     player +
-      //     " socre: " +
-      //     total
-      // );
+    //   "setTotalScore called at " +
+    //     socket.player +
+    //     " about player: " +
+    //     player +
+    //     " socre: " +
+    //     total
+    // );
     if (player == 1) {
       p1total = total;
     } else {
@@ -260,6 +261,7 @@ io.on("connection", function (socket) {
         db.query(
           `update user_record set draw = draw + 1 where id = '${socket.name}'`,
           function (err, status) {
+            // console.log(`update user_record set draw = draw + 1 where id = '${socket.name}'`);
             // console.log("record draw complete");
           }
         );
@@ -268,7 +270,7 @@ io.on("connection", function (socket) {
         db.query(
           `update user_record set win = win + 1 where id = '${socket.name}'`,
           function (err, status) {
-            // console.log("record win complete");
+           
           }
         );
       } else {
@@ -276,7 +278,7 @@ io.on("connection", function (socket) {
         db.query(
           `update user_record set lose = lose + 1 where id = '${socket.name}'`,
           function (err, status) {
-            // console.log("record lose complete");
+       
           }
         );
       }
@@ -384,7 +386,7 @@ io.on("connection", function (socket) {
 
   //게임 종료를 판별하는 함수
   function checkWinner() {
-    // // console.log(
+    // console.log(
     //   "checkWinner called at " +
     //     socket.player +
     //     " and p1score : " +
@@ -477,7 +479,6 @@ io.on("connection", function (socket) {
       },
       msg: data.msg,
     };
-    // console.log(`select id,win,lose,draw from user_record where id = '${data.msg}'`);
 
     db.query(
       `select id,win,lose,draw from user_record where id = '${data.msg}'`,
